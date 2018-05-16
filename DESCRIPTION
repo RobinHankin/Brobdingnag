@@ -13,3 +13,4 @@ Description: Handles very large numbers in R.  Real numbers are held
 LazyLoad: yes
 License: GPL
 Repository: CRAN
+URL: https://github.com/RobinHankin/Brobdingnag.git
