@@ -1,0 +1,1127 @@
+\documentclass[nojss]{jss}
+
+\usepackage{dsfont}
+\usepackage{bbm}
+\usepackage{amsfonts}
+\usepackage{wasysym}
+
+\author{Robin K. S. Hankin\\Auckland University of Technology}
+\title{A step-by-step guide to writing a simple package that uses \proglang{S4} methods: a ``hello world'' example}
+%\VignetteIndexEntry{Brobdingnag: a ``hello world'' package using S4 methods}
+
+
+\Plainauthor{Robin K. S. Hankin}
+\Plaintitle{Integer Partitions in R} 
+\Shorttitle{Integer Partitions in R}
+
+\Abstract{
+  This vignette shows how to use \proglang{S4} methods to create a
+  simple package.
+  
+  The other vignette shows how to use the package for solving problems
+  involving very large numbers; it is based
+  on~\cite{Rnews:Hankin:2007}.
+}
+  
+\Keywords{\proglang{S4} methods, Brobdingnag, \proglang{R}}
+\Plainkeywords{S4 methods, Brobdingnag, R}
+
+\Address{
+  Robin K. S. Hankin\\
+  Auckland University of Technology\\
+  E-mail: \email{hankin.robin@gmail.com}
+}
+
+%% need no \usepackage{Sweave.sty}
+\SweaveOpts{echo=TRUE}
+\begin{document}
+
+\newsymbol\leqslant 1336
+
+
+\section{Introduction}
+
+This vignette proves that it is possible for a `normal'
+person\footnote{That is, someone without super powers (such as might
+  manifest themselves after being bitten by a radioactive member of
+  \proglang{R}-core, for example)} to write a package using \proglang{S4}
+methods.  It gives a step-by-step guide to creating a package that
+contains two \proglang{S4} classes (brobs and glubs) and a bunch of basic
+utilities for manipulating them.
+
+This document focuses on the \proglang{S4} aspects of the package.  For an
+overview of the mathematical properties of Brobdingnagian numbers,
+their potential and their limitations, see the {\tt .Rd} files
+and~\cite{Rnews:Hankin:2007}. 
+
+If you like this vignette and package, and find it useful, let me
+know.  If there is anything wrong with it, let me know.
+
+I would not recommend that anyone uses \proglang{S4} unless there is a good
+reason for it (many of my packages use \proglang{S3} methods which I found to be
+perfectly adequate for my needs).  Reasons for using \proglang{S4} might include
+a package having a large number of object classes that have a
+complicated hierarchical structure, or a complicated set of methods
+that interact with the object classes in a complicated manner.
+
+In the package, brobs are dealt with in {\tt brob.R}, and glubs are
+treated in {\tt glub.R} which appropriately generalizes all the {\tt
+brob} functionality.
+
+This document could not have been prepared (and should not be read)
+without consulting the following resources:
+\begin{itemize}
+\item John M. Chambers (1998), {\it Programming with Data}.  New York: Springer,
+     ISBN 0-387-98503-4 (The Green Book).
+\item W. N. Venables and B. D. Ripley (2000), {\it S Programming}.  Springer,
+     ISBN 0-387-98966-8.
+\item John Chambers (2006).  {\tt How \proglang{S4} methods work} (available on CRAN).
+\end{itemize}
+
+\subsection{Overview}
+
+
+The idea of {\tt Brobdingnag} package is simple: the IEEE
+representation for floating point numbers cannot represent numbers
+larger than about~$1.8\times 10^{308}$.  The package represents a
+number by the natural logarithm of its magnitude, and also stores a
+Boolean value indicating its sign.  Objects so stored have class {\tt
+brob}; complex numbers may be similarly represented and have class
+{\tt glub}.
+
+With this scheme, multiplication is easy but addition is hard.  The
+basic identity is:
+
+\[
+\log(e^x+e^y) = 
+\left\{
+\begin{array}{cc}
+x+\log\left(1+e^{y-x}\right)\qquad &\mbox{if~$x>y$}\\
+y+\log\left(1+e^{x-y}\right)\qquad &\mbox{otherwise}
+\end{array}
+\right.
+\]
+
+In practice this gets more complicated as one has to keep track of the
+sign; and special dispensation is needed for zero ($=e^{-\infty}$).
+
+One can thus deal with numbers up to about~$e^{1.9\times
+10^{308}}\simeq 10^{7.8\times 10^{307}}$, although at this outer limit
+accuracy is pretty poor.
+
+
+
+\section{Class definition}
+
+The first thing we need to do is to define the {\tt brob} class.  This
+uses the {\tt setClass()} function:
+
+<<setClass,print=FALSE>>=
+<<results=hide>>=
+setClass("swift",
+         representation = "VIRTUAL"
+         )
+
+setClass("brob",
+         representation = representation(x="numeric",positive="logical"),
+         prototype      = list(x=numeric(),positive=logical()),
+         contains       = "swift"
+         )
+@ 
+
+It is simpler to ignore the first call to {\tt setClass()} here; for
+reasons that will become apparent when discussing the {\tt c()}
+function, one needs a virtual class that contains class brob and glub.
+To understand virtual classes, see section~\ref{logicSection}.
+
+The second call to {\tt setClass()} is more germane.  Let's take this
+apart, argument by argument.  The first argument, {\tt
+representation}, specifies ``the slots that the new class should have
+and/or other classes that this class extends.  Usually a call to the
+`representation' function''.  The helppage for {\tt representation}
+gives a few further details.  Thus this argument specifies two
+`slots': one for the value and one for the sign.  These are specified
+to be numeric and logical (NB: not Boolean) respectively.
+
+The second argument, {\tt prototype}, specifies default data for the
+slots.  This kicks in when defining a zero-length brob; an example
+would be extracting {\tt x[FALSE]} where {\tt x} is a brob.
+
+The third argument, {\tt contains}, tells \proglang{R} that class {\tt swift}
+(which was specified to be virtual), has {\tt brob} as a subclass.
+We will need this later when we start to deal with {\tt glub}s, which
+are also a subclass of {\tt swift}.
+
+Let's use it:
+
+<<new>>=
+new("brob",x=1:10,positive=rep(TRUE,10))
+@ 
+
+Notes:
+\begin{itemize}
+\item Function {\tt new()} is the {\em only} way to create objects
+  of class brob.  So, any object of class brob {\em must} have been
+  created with function {\tt new()}.  This is part of what the
+  ``formal'' tag for \proglang{S4} means\footnote{Compare \proglang{S3}, in which I can say
+
+  {\tt a <- 1:10; class(a) <- "lilliput"}}.
+\item Function {\tt new()} requires its arguments to be named, and no
+  partial argument matching is performed.
+\item Function {\tt new()} is not intended for the user.   It's too
+  picky and difficult.  To create new brobs, we need some more
+  friendly functions---{\tt as.brob()} and {\tt brob()}---discussed
+  below.
+\item There is, as yet, no print method, so the form of the object
+  printed to the screen is less than ideal.
+\end{itemize}
+
+\subsection{Validity methods}
+
+Now, an optional step is to define a function that tests whether the
+arguments passed to {\tt new()} are acceptable.  As it stands, the
+following code:
+<<new_flaky_arguments>>=
+new("brob",x=1:10,positive=c(TRUE,FALSE,FALSE))
+@ 
+
+\noindent
+will not return an error, but is not acceptable because the arguments
+are different lengths (and will not recycle neatly).
+
+So, we define a validity method:
+
+<<validity_method>>=
+.Brob.valid <- function(object){
+  len <- length(object@positive)
+  if(len != length(object@x)){
+    return("length mismatch")
+  } else {
+    return(TRUE)
+  }
+}
+@ 
+
+Advice on the form of the validity-testing function---here {\tt
+.Brob.valid()}---is given in the help page for {\tt setValidity}:
+``The method should be a function of one object that returns `TRUE' or
+a description of the non-validity''.  Examples are given in section
+7.1.6 of the Green Book.
+
+In this package, I define a whole bunch of functions whose name starts
+with {\tt .Brob.}; these are internal and not intended for the user.
+They are also not documented.
+
+So now we have a function, {\tt .Brob.valid()}, that checks whether
+its argument has slots of the same length.  We need to tell \proglang{R} that
+this function should be invoked every time a {\tt brob} is created.
+Function {\tt setValidity()} does this:
+
+<<call_setValidity>>=
+setValidity("brob", .Brob.valid)
+@ 
+
+Thus, from now on [ie after the above call to {\tt setValidity()}],
+when calling {\tt new("brob", ...)} the two arguments {\tt x} and {\tt
+positive} must be the same length: recycling is not carried out.
+
+Functions like {\tt .Brob.valid()} that are user-unfriendly all have
+names beginning with {\tt .Brob}.  These functions are there to help
+the organization of the package and are not intended to be used by the
+end-user.
+
+Clever, user-friendly operations such as recycling are carried out in
+the more user-friendly functions such as {\tt as.brob()}.
+
+If one were to call {\tt new()} with arguments of differing lengths,
+as in
+\\
+\\
+{\tt 
+new("brob",x=1:10,positive=TRUE)
+}
+\\
+\\
+then {\tt new()} would report the error message in function {\tt
+  .Brob.valid()}, because the {\tt positive} argument had length~1 and
+the {\tt x} was length~10; and the validity method {\tt .Brob.valid()}
+requires both arguments to be the same length\footnote{Placing the
+  above call in {\tt try()} and showing the error explicitly would
+  cause the package to fail {\tt R CMD check}.}.
+
+So now {\tt new()} works, but isn't exactly user-friendly: often one
+would want the above call to recycle the second argument to length 10
+to match the first.  This deficiency is remedied in the next section.
+
+\section{Basic user-friendly functions to create brobs}
+
+The basic, semi user-friendly function for creating brobs is {\tt
+brob()}:
+
+<<brob_definition>>=
+"brob" <- function(x=double(),positive){
+  if(missing(positive)){
+    positive <- rep(TRUE,length(x))
+  }
+  if(length(positive)==1){
+    positive <- rep(positive,length(x))
+  }
+  new("brob",x=as.numeric(x),positive=positive)
+}
+@
+
+Thus {\tt brob(x)} will return a number formally equal to~$e^x$.
+Function {\tt brob()} does helpful things like assuming the user
+desires positive numbers; it also carries out recycling:
+
+<<call_brob_recycling>>=
+brob(1:10,FALSE)
+@ 
+
+Note that {\tt brob()} isn't exactly terribly user-friendly: it's
+confusing. {\tt brob(5)} returns a number formally equal to~$e^5$,
+not~$5$.   This is documented in the help page, where the user is
+encouraged to use function {\tt as.brob()} instead.
+
+\section[Testing for brobs: an ``is.brob()'' function]{Testing for brobs: an {\tt is.brob()} function}
+
+Function {\tt is()} will test for an object being a brob:
+
+<<use.function.is>>=
+is(brob(1:5),"brob")
+@ 
+
+(see {\tt help(is)} for more details) but a small package like this,
+with only brobs and glubs to consider, could benefit from an \proglang{S3}-style
+function {\tt is.brob()}.  This is easy to define:
+
+<<is.brob_definition>>=
+is.brob <- function(x){is(x,"brob")}
+is.glub <- function(x){is(x,"glub")}
+@ 
+
+now the user can just type {\tt is.brob(x)} to find out whether an
+object is a brob\footnote{This approach is fine for a tiny package
+like Brobdingnag, with only two or three classes.  However, in the
+context of a more complicated package such as {\tt Matrix}, which uses
+dozens of different classes in a complicated hierarchical structure,
+one might prefer to type {\tt is(x,"dpoMatrix-class")} rather than
+define a plethora of functions along the lines of {\tt
+is.dpoMatrix-class()}.}.
+
+We also define an {\tt is.glub()} function similarly.  So now we can
+check for objects being brobs and glubs.
+
+\section[Coercion: an ``as.brob()'' function]{Coercion: an {\tt as.brob()} function}
+
+Next, some ways to coerce objects to class brob:
+
+<<as.brob_definition>>=
+"as.brob" <- function(x){
+  if(is.brob(x)){
+    return(x)
+  } else if(is.complex(x)) {
+    warning("imaginary parts discarded")
+    return(Recall(Re(x)))
+  } else if(is.glub(x)){
+    warning("imaginary parts discarded")
+    return(Re(x))
+  } else {
+    return(brob(log(abs(x)), x>=0))
+  }
+}
+@ 
+
+So now we can coerce objects of various classes to brobs\footnote{The
+recommended way, appropriate for a complicated package such as Matrix,
+would be to execute {\tt setAs("numeric", "brob",
+.Brob.numeric\_to\_brob)} and {\tt setAs("complex", "brob",
+.Brob.complex\_to\_brob)}.  Then, if {\tt x} is numeric, {\tt
+as(x,"brob")} would return the appropriate brob via {\tt
+.Brob.numeric\_to\_brob()}; we could then make {\tt as.brob()} a
+generic with {\tt setGeneric()} and define methods for it.  Doing it
+this way would save function {\tt as.brob()} having to test for its
+argument being a brob [carried out in the first few lines of {\tt
+as.brob()}] because {\tt as()} has such a test built in, implicitly.}.
+The {\em only} way to create a brob is to use {\tt new()}, and the
+{\em only} function that calls this is {\tt brob()}.  And {\tt
+as.brob()} calls this.
+
+Note the user-friendliness of {\tt as.brob()}.  It takes numerics,
+brobs, and glubs (which give a warning).
+
+Check  {\tt as.brob()}:
+
+<<as.brob_call>>=
+as.brob(1:10)
+@ 
+
+\section[Coercion: an ``as.numeric()'' function]{Coercion: an {\tt as.numeric()} function}
+
+Now we need some methods to coerce brobs to numeric.  This is a
+two-stage process.
+
+
+<<setAs>>=
+<<results=hide>>=
+setAs("brob", "numeric", function(from){
+  out <- exp(from@x)
+  out[!from@positive] <- -out[!from@positive]
+  return(out)
+} )
+@ 
+
+This call to {\tt setAs()} makes {\tt as(x,"numeric")} carry out the
+function passed as the third argument when given a brob. 
+
+But in this package, the user isn't supposed to type {\tt
+as(x,"numeric")}: the user is supposed to type {\tt
+as.numeric(x)}\footnote{Users can be expected to be familiar with
+functions such as {\tt as.numeric()} and {\tt as.complex()}, which is
+why the Brobdingnag package recommends this form.  However, this might
+not be appropriate for a more complicated package such as Matrix
+because, to quote Martin Maechler, ``it seems very ugly to define more
+than very few {\tt as.FOO()} methods, and very natural to work with
+{\tt as(*, "FOO")} [constructions]''.  Of course, there's nothing to
+stop a user typing {\tt as(x,"numeric")} if they wish.}.  To
+accomplish this, we have to tell \proglang{R} that function {\tt as.numeric()}
+should execute {\tt as(x,"numeric")} when given a {\tt brob}.  This is
+done by calling function {\tt setMethod()}:
+
+
+<<setMethodbrob,results=hide>>=
+setMethod("as.numeric",signature(x="brob"),function(x){as(x,"numeric")})
+@ 
+
+We similarly need to make {\tt as.complex()} work for brobs:
+<<setAsbrobcomplex,results=hide>>=
+setAs("brob", "complex", function(from){
+  return(as.numeric(from)+ 0i)
+} )
+
+setMethod("as.complex",signature(x="brob"),function(x){as(x,"complex")})
+@ 
+
+We'll need similar methods for glubs too.
+
+
+Better check:
+
+
+
+<<asCheck>>=
+x <- as.brob(1:4)
+x
+as.numeric(x)
+@ 
+
+So that works.
+
+\section{Print methods}
+Print methods are not strictly necessary, but make using the package
+much easier.  First, a helper function:
+
+
+<<print_methods>>=
+.Brob.print <- function(x, digits=5){
+     noquote( paste(c("-","+")[1+x@positive],"exp(",signif(x@x,digits),")",sep=""))
+   }
+@ 
+
+Then an \proglang{S3} method:
+
+<<print.brob>>=
+print.brob <- function(x, ...){
+  jj <- .Brob.print(x, ...)
+  print(jj)
+  return(invisible(jj))
+}
+@ 
+
+And finally a call to {\tt setMethod()}:
+
+<<setmethodbrobshow,results=hide>>=
+setMethod("show", "brob", function(object){print.brob(object)})
+@ 
+
+This two-stage methodology is recommended in the Venables and Ripley.
+The {\tt .Brob.print()} function does the hard work.  Example of it in
+use:
+
+<<as.brob14>>=
+as.brob(1:4)
+@ 
+
+See how the brob object is printed out nicely, and with no special
+effort required of the user.
+
+
+\section{Get and Set methods}
+
+To be anal retentive about things, one should define {\tt C++} style
+accessor functions as follows:
+
+<<get.n.set>>=
+<<results=hide>>=
+setGeneric("getX",function(x){standardGeneric("getX")})
+setGeneric("getP",function(x){standardGeneric("getP")})
+setMethod("getX","brob",function(x){x@x})
+setMethod("getP","brob",function(x){x@positive})
+@ 
+
+but in practice I just use {\tt @} to access the slots.  These are
+just here for good form's sake.
+
+
+\section{Length}
+
+Now a length:
+
+<<setlength>>=
+<<results=hide>>=
+setMethod("length","brob",function(x){length(x@x)})
+@ 
+
+\section{Extracting elements of a vector}
+
+Next thing is to define some methods for extraction.  This is done
+with {\tt setMethod()} for extraction, and {\tt setReplaceMethod()}
+for replacement.
+
+<<setmethodSquareBrace>>=
+<<results=hide>>=
+setMethod("[", "brob",
+          function(x, i, j,  drop){
+            if(!missing(j)){
+              warning("second argument to extractor function ignored")
+            }
+            brob(x@x[i], x@positive[i])
+          } )
+@ 
+
+See how the third argument to {\tt setMethod()} is a function whose
+arguments are the same as those to {\tt  "["() %]
+}.  Argument {\tt j} {\em must} be there otherwise one gets a
+  signature error.  I've put in a warning if a second argument that
+  might be interpreted as {\tt j} is given.
+
+Now a method for replacement.  This is a call to {\tt setReplaceMethod()}:
+
+
+<<setReplaceMethod>>=
+<<results=hide>>=
+setReplaceMethod("[",signature(x="brob"),
+                 function(x,i,j,value){
+                   if(!missing(j)){
+                     warning("second argument to extractor function ignored")
+                   }
+                   jj.x <- x@x
+                   jj.pos <- x@positive
+                   if(is.brob(value)){
+                     jj.x[i] <- value@x
+                     jj.pos[i] <- value@positive
+                     return(brob(x=jj.x,positive=jj.pos))
+                   } else {
+                     x[i] <- as.brob(value)
+                     return(x)
+                   }
+                 } )
+
+@ 
+
+
+See how the replacement function tests for the replacement value being
+a brob and acts accordingly.
+
+\section[Concatenation function ``cbrob()'']{Concatenation function {\tt cbrob()}}
+\label{cbrob}
+
+It is not possible to make {\tt c()} behave as expected for
+brobs\footnote{The ideas in this section are entirely due to John
+Chambers, who kindly replied to a question of mine on the \proglang{R}-devel
+email list} (that is, if any of its arguments are brobs, to coerce all
+its arguments to brobs and then concatenate).
+
+However, it is possible to define a function {\tt cbrob()} that does
+the job.  This has to be done in several stages.
+
+First we define another user-unfriendly helper function {\tt
+.Brob.cPair()} which takes two arguments, coerces them to brobs, and
+concatenates them:
+
+<<.Brob.cPair>>=
+.Brob.cPair <- function(x,y){
+  x <- as.brob(x)
+  y <- as.brob(y)
+  brob(c(x@x,y@x),c(x@positive,y@positive))
+}
+@ 
+
+This is just {\tt c()} for the two slots separately.  The idea is that
+function {\tt .Brob.cPair()} takes two arguments; both are coerced to
+brobs and it returns the concatenated vector of brobs.
+
+Now, we need to set up a (user-unfriendly) generic function {\tt
+.cPair()}:
+
+<<setGeneric_cbrob>>=
+<<results=hide>>=
+setGeneric(".cPair", function(x,y){standardGeneric(".cPair")})
+@ 
+
+Function {\tt .cPair()} is not substantive (sic): it exists purely in
+order to be a generic function that dispatches to {\tt .Brob.cPair()}.
+
+Now we use {\tt setMethod()} to organize the dispatch:
+
+
+<<setMethod.Cpair>>=
+<<results=hide>>=
+setMethod(".cPair", c("brob", "brob"), function(x,y){.Brob.cPair(x,y)})
+setMethod(".cPair", c("brob", "ANY"),  function(x,y){.Brob.cPair(x,as.brob(y))})
+setMethod(".cPair", c("ANY", "brob"),  function(x,y){.Brob.cPair(as.brob(x),y)})
+setMethod(".cPair", c("ANY", "ANY"),   function(x,y){c(x,y)})
+@ 
+
+
+The four calls are necessary for the four different signatures that
+might be encountered.  Note the {\tt ANY} class in the second, third,
+and fourth call.  Thus if someone wants to write a new class of object
+(a lugg, say), and wants to concatenate luggs with a brob, this will
+work provided that they use {\tt setAs()} to make {\tt as.brob()}
+coerce correctly for lugg objects.  The method used here allows this
+to be done without any changes to the Brobdingnag package.
+
+The final stage is the definition of {\tt cbrob()}, a user-friendly
+wrapper for the above stuff:
+
+<<cbrob>>=
+"cbrob" <- function(x, ...) {
+   if(nargs()<3)
+      .cPair(x,...)
+    else
+      .cPair(x, Recall(...))
+}
+@ 
+
+
+Note the recursive definition.  If {\tt cbrob()} is called with {\em
+any} set of arguments that include a brob anywhere, this will result
+in the whole lot being coerced to brobs [by {\tt .Brob.cPair()}].
+Which is what we want (although glubs will require more work).
+
+
+Just test this:
+<<test.cbrob>>=
+a <- 1:3
+b <- as.brob(1e100)
+cbrob(a,a,b,a)
+@ 
+
+So it worked: everything was coerced to a brob because of the single
+object of class brob in the call.
+
+
+\section{Maths}
+
+The math group generic functions are set with function {\tt
+  setMethod()}.  But, before this can be called, function {\tt sqrt()}
+needs a specific brob method:
+
+
+<<sqrtmethod>>=
+<<results=hide>>=
+setMethod("sqrt","brob", function(x){
+ brob(ifelse(x@positive,x@x/2, NaN),TRUE)
+} )
+@ 
+
+Just check that:
+<<checklogsqrt>>=
+sqrt(brob(4))
+@ 
+
+With these out of the way we can use {\tt setMethod()} to define the 
+appropriate functions in the math group generic:
+
+<<mathgeneric>>=
+<<results=hide>>=
+setMethod("Math", "brob",
+          function(x){
+            switch(.Generic,
+                   abs    = brob(x@x),
+                   log    = {
+                     out <- x@x
+                     out[!x@positive] <- NaN
+                     out
+                   },
+                   exp    = brob(x),
+                   cosh   = {(brob(x) + brob(-x))/2},
+                   sinh   = {(brob(x) - brob(-x))/2},
+                   acos   =,
+                   acosh  =,
+                   asin   =,
+                   asinh  =,
+                   atan   =,
+                   atanh  =,
+                   cos    =,
+                   sin    =,
+                   tan    =,
+                   tanh   =,
+                   trunc  = callGeneric(as.numeric(x)),
+                   lgamma =,
+                   cumsum =,
+                   gamma  =,
+                   ceiling=,
+                   floor  = as.brob(callGeneric(as.numeric(x))),
+                   stop(paste(.Generic, "not allowed on Brobdingnagian numbers"))
+                     )
+          } )
+@ 
+
+See how the third argument to {\tt setMethod()} is a function.  This
+function has access to {\tt .Generic}, in addition to {\tt x} and uses
+it to decide which operation to perform.
+
+See how functions {\tt acos()} to {\tt trunc()} just drop through to
+{\tt callGeneric(as.numeric(x))}.  See also the method for {\tt
+log()}, which uses facts about brobs not known to \proglang{S4}.
+
+Just a quick check:
+
+<<checktrig>>=
+sin(brob(4))
+@ 
+
+So that works.
+
+\section{Operations}
+
+Now we need to make sure that {\tt brob(1) + brob(3)} works: the
+operations {\tt +, -, *, /} must work as expected.  This is hard.
+
+First step: define some user-unfriendly functions that carry out the
+operations.  For example, function {\tt .Brob.negative()} simply
+returns the negative of a brob.  These functions are not for the user.
+
+
+<<.brob.arithstuff>>=
+.Brob.negative <- function(e1){
+  brob(e1@x,!e1@positive)
+}
+.Brob.ds <- function(e1,e2){   # "ds" == "different signs"
+  xor(e1@positive,e2@positive)
+}
+
+.Brob.add <- function(e1,e2){
+  e1 <- as.brob(e1)
+  e2 <- as.brob(e2)
+  
+  jj <- rbind(e1@x,e2@x)
+  x1 <- jj[1,]
+  x2 <- jj[2,]
+  out.x <- double(length(x1))
+  
+  jj <- rbind(e1@positive,e2@positive)
+  p1 <- jj[1,]
+  p2 <- jj[2,]
+  out.pos <- p1
+  
+  ds <- .Brob.ds(e1,e2)
+  ss <- !ds                             #ss == "Same Sign"
+
+  out.x[ss] <- pmax(x1[ss],x2[ss]) + log1p(+exp(-abs(x1[ss]-x2[ss])))
+  out.x[ds] <- pmax(x1[ds],x2[ds]) + log1p(-exp(-abs(x1[ds]-x2[ds])))
+
+  # Now special dispensation for 0+0:
+  out.x[ (x1 == -Inf) & (x2 == -Inf)] <- -Inf
+  out.pos <- p1
+  out.pos[ds] <- xor((x1[ds] > x2[ds]) , (!p1[ds]) )
+  return(brob(out.x,out.pos))
+}
+
+.Brob.mult <- function(e1,e2){
+  e1 <- as.brob(e1)
+  e2 <- as.brob(e2)
+  return(brob(e1@x + e2@x, !.Brob.ds(e1,e2)))
+}
+
+.Brob.power <- function(e1,e2){
+  stopifnot(is.brob(e1) | is.brob(e2))
+  if(is.brob(e2)){ # e2 a brob => answer a brob (ignore signs)
+    return(brob(log(e1) * brob(e2@x), TRUE))
+  } else {  #e2 a non-brob (try to account for signs)
+    s <- as.integer(2*e1@positive-1) #s = +/-1
+    return(brob(e1@x*as.brob(e2),  (s^as.numeric(e2))>0))
+  }
+}
+
+.Brob.inverse <- function(b){brob(-b@x,b@positive)}
+@ 
+
+Note the complexity of {\tt .Brob.add()}.  This is hard because logs
+are good at multiplying but bad at adding [{\tt ss} and {\tt ds} mean
+``same sign'' and ``different sign'' respectively].
+
+The first step is to make sure that the unary operators {\tt +} and
+{\tt -} work.  We do this by a call to {\tt setMethod()}:
+
+
+<<setMethodArithUnary>>=
+<<results=hide>>=
+setMethod("Arith",signature(e1 = "brob", e2="missing"),
+          function(e1,e2){
+            switch(.Generic,
+                   "+" = e1,
+                   "-" = .Brob.negative(e1),
+                   stop(paste("Unary operator", .Generic,
+                              "not allowed on Brobdingnagian numbers"))
+                   )
+          } )
+@ 
+
+Note the second argument is {\tt signature(e1 = "brob",
+ e2="missing")}: this effectively restricts the scope to unary
+ operators.  The {\tt switch()} statement only allows the + and the -.\
+
+
+Check:
+
+<<check_minus_5>>=
+-brob(5)
+@ 
+
+So that works.
+
+Next step, another user-unfriendly helper function that does the dirty work:
+
+
+<<brob.arith>>=
+.Brob.arith <- function(e1,e2){
+  switch(.Generic,
+         "+" = .Brob.add  (e1, e2),
+         "-" = .Brob.add  (e1, .Brob.negative(as.brob(e2))),
+         "*" = .Brob.mult (e1, e2),
+         "/" = .Brob.mult (e1, .Brob.inverse(as.brob(e2))),
+         "^" = .Brob.power(e1, e2),
+         stop(paste("binary operator \"", .Generic, "\" not defined for Brobdingnagian numbers"))
+         ) }
+@ 
+
+
+And now we can call {\tt setMethod()}:
+
+<<setMethodArith,results=hide>>=
+setMethod("Arith", signature(e1 = "brob", e2="ANY"), .Brob.arith)
+setMethod("Arith", signature(e1 = "ANY", e2="brob"), .Brob.arith)
+setMethod("Arith", signature(e1 = "brob", e2="brob"), .Brob.arith)
+@ 
+
+Better check it:
+
+<<check_addition>>=
+1e100 + as.brob(10)^100
+@ 
+
+
+
+\section{Comparison}
+
+
+This is pretty much the same as the others.  First, some
+user-unfriendly helper functions:
+
+<<brob.equalandgreater>>=
+.Brob.equal <- function(e1,e2){
+  (e1@x==e2@x) & (e1@positive==e2@positive)
+}
+
+.Brob.greater <- function(e1,e2){
+  jj.x <- rbind(e1@x,e2@x)
+  jj.p <- rbind(e1@positive,e2@positive)
+
+  ds <- .Brob.ds(e1,e2)
+  ss <- !ds                             #ss == "Same Sign"
+  greater <- logical(length(ss))
+  
+  greater[ds] <- jj.p[1,ds]
+  greater[ss] <- jj.p[1,ss] & (jj.x[1,ss] > jj.x[2,ss])
+  return(greater)
+}
+@ 
+
+These are the fundamental ones.  We can now define another
+all-encompassing user-unfriendly function:
+
+<<brob.compare>>=
+".Brob.compare" <- function(e1,e2){
+  e1 <- as.brob(e1)
+  e2 <- as.brob(e2)
+  switch(.Generic,
+         "==" =  .Brob.equal(e1,e2),
+         "!=" = !.Brob.equal(e1,e2),
+         ">"  =  .Brob.greater(e1,e2),
+         "<"  = !.Brob.greater(e1,e2) & !.Brob.equal(e1,e2),
+         ">=" =  .Brob.greater(e1,e2) |  .Brob.equal(e1,e2),
+         "<=" = !.Brob.greater(e1,e2) |  .Brob.equal(e1,e2),
+         stop(paste(.Generic, "not supported for Brobdingnagian numbers"))
+         )
+}
+@ 
+
+See how this function coerces both arguments to brobs.
+Now the call to {\tt setMethod()}:
+
+<<setMethodCompare>>=
+<<results=hide>>=
+setMethod("Compare", signature(e1="brob", e2="ANY" ), .Brob.compare)
+setMethod("Compare", signature(e1="ANY" , e2="brob"), .Brob.compare)
+setMethod("Compare", signature(e1="brob", e2="brob"), .Brob.compare)
+@ 
+
+Better check:
+
+<<check.compare>>=
+as.brob(10) < as.brob(11)
+as.brob(10) <= as.brob(10)
+@ 
+
+So that works.
+
+\section{Logic}
+\label{logicSection}
+
+
+(The material in this section works in \proglang{R}-2.4.1, but not \proglang{R}-2.4.0).
+
+First a helper function:
+
+<<brob.logic>>=
+.Brob.logic <- function(e1,e2){
+  stop("No logic currently implemented for Brobdingnagian numbers")
+}
+@ 
+
+
+Now the calls to {\tt setMethod()}:
+
+
+<<setmethodlogic>>=
+<<results=hide>>=
+setMethod("Logic",signature(e1="swift",e2="ANY"), .Brob.logic)
+setMethod("Logic",signature(e1="ANY",e2="swift"), .Brob.logic)
+setMethod("Logic",signature(e1="swift",e2="swift"), .Brob.logic)
+@ 
+
+Note that the signatures specify {\tt swift} objects, so that glubs
+will be handled correctly too in one fell swoop. Note the third call
+to {\tt setMethod()}: without this, a call to {\tt Logic()} with
+signature {\tt c("swift","swift")} would be ambiguous as it might be
+interpreted as {\tt c("swift","ANY")} or {\tt c("ANY","swift")}.
+
+Here, class {\tt swift} extends {\tt brob} and {\tt glub}; so both
+brobs and glubs {\em are} {\tt swift} objects.  But no object is a
+``pure'' {\tt swift}; it's either a brob or a glub.  This is useful
+here because I might dream up some new class of objects that are
+``like'' brobs in some way (for example, a class of objects whose
+elements are quaternions with Brobdingnagian components) and it would
+be nice to specify behaviour that is generic to brobs and glubs and
+the new class of objects too.
+
+
+
+
+\section{Miscellaneous generics}
+
+We now have to tell \proglang{R} that certain functions are to be considered
+generic.  The functions are {\tt max(), min(), range(), prod()}, and
+{\tt sum()}.  The help page for (eg) {\tt max()} specifies that the
+arguments must be numeric, and brobs aren't numeric.
+
+In versions of \proglang{R} prior to 2.6-0 (I think), {\tt log()} needs to be
+made a generic with {\tt setGeneric()}.  But, in versions 2.6-0 and
+above, all the group generics (including {\tt log}) are primitive,
+which means that the generic function is implicit and cannot be
+changed.  This applies to the other group generics too ({\tt max},
+{\tt min}, {\tt prod}, {\tt range} {\tt sum}).  So to work with both
+types of \proglang{R}, one needs to check whether or not {\tt log} (or {\tt max}
+or whatever) is generic before calling {\tt setGeneric()}.
+
+<<logchunk,results=hide>>=
+if(!isGeneric("log")){
+  setGeneric("log",group="Math")
+}
+@ 
+
+
+<<miscgenerics>>=
+<<results=hide>>=
+if(!isGeneric("sum")){
+setGeneric("max", function(x, ..., na.rm = FALSE)
+	{
+		standardGeneric("max")
+	},
+	useAsDefault = function(x, ..., na.rm = FALSE)
+	{
+		base::max(x, ..., na.rm = na.rm)
+	},
+	group = "Summary")
+
+setGeneric("min", function(x, ..., na.rm = FALSE)
+	{
+		standardGeneric("min")
+	},
+	useAsDefault = function(x, ..., na.rm = FALSE)
+	{
+		base::min(x, ..., na.rm = na.rm)
+	},
+	group = "Summary")
+
+setGeneric("range", function(x, ..., na.rm = FALSE)
+	{
+		standardGeneric("range")
+	},
+	useAsDefault = function(x, ..., na.rm = FALSE)
+	{
+		base::range(x, ..., na.rm = na.rm)
+	},
+	group = "Summary")
+
+setGeneric("prod", function(x, ..., na.rm = FALSE)
+	{
+		standardGeneric("prod")
+	},
+	useAsDefault = function(x, ..., na.rm = FALSE)
+	{
+		base::prod(x, ..., na.rm = na.rm)
+	},
+	group = "Summary")
+
+setGeneric("sum", function(x, ..., na.rm = FALSE)
+	{
+		standardGeneric("sum")
+	},
+	useAsDefault = function(x, ..., na.rm = FALSE)
+	{
+		base::sum(x, ..., na.rm = na.rm)
+	},
+	group = "Summary")
+}
+@ 
+
+Now we need some more user-unfriendly helper functions:
+
+<<brob.maxmin>>=
+.Brob.max <- function(x, ..., na.rm=FALSE){
+  p <- x@positive
+  val <- x@x
+  if(any(p)){
+    return(brob(max(val[p])))
+  } else {
+    # all negative
+    return(brob(min(val),FALSE))
+  }
+}
+
+.Brob.prod <- function(x){
+  p <- x@positive
+  val <- x@x
+  return(brob(sum(val),(sum(p)%%2)==0))
+}
+
+.Brob.sum <- function(x){
+  .Brob.sum.allpositive( x[x>0]) -
+  .Brob.sum.allpositive(-x[x<0]) 
+}
+
+.Brob.sum.allpositive <- function(x){
+  if(length(x)<1){return(as.brob(0))}
+  val <- x@x
+  p <- x@positive
+  mv <- max(val)
+  return(brob(mv + log1p(sum(exp(val[-which.max(val)]-mv))),TRUE))
+}
+@ 
+
+Note the final function that sums its arguments, which are all assumed
+to be positive, in an intelligent, accurate, and efficient manner.  No
+checking is done (this is not a user-friendly function!).
+
+We can define {\tt .Brob.sum()} in terms of this: return the
+difference between the sum of the positive arguments and and the sum
+of minus the negative arguments.
+
+<<setmethodsummary>>=
+<<results=hide>>=
+setMethod("Summary", "brob",
+          function(x, ..., na.rm=FALSE){
+            switch(.Generic,
+                   max    =  .Brob.max( x, ..., na.rm=na.rm),
+                   min    = -.Brob.max(-x, ..., na.rm=na.rm),
+                   range  =   cbrob(min(x,na.rm=na.rm),max(x,na.rm=na.rm)),
+                   prod   =  .Brob.prod(x),
+                   sum    =  .Brob.sum(x),
+                   stop(paste(.Generic, "not allowed on Brobdingnagian numbers"))
+                   )
+          }
+          )
+@ 
+
+Better check:
+
+<<checksum>>=
+sum(as.brob(1:100)) - 5050
+@ 
+
+showing acceptable accuracy.
+
+\section{Examples of the package in use}
+
+We can try to evaluate a factorial.
+Stirling's approximation is~$n!\sim\sqrt{2\pi
+  n}\,e^{-n}n^n$:
+
+<<factorial>>=
+stirling <- function(x){sqrt(2*pi*x)*exp(-x)*x^x}
+@ 
+
+And this should work seamlessly with Brobs:
+
+
+<<use.stirling>>=
+stirling(100)
+stirling(as.brob(100))
+@ 
+
+And are they the same?
+
+<<compare.two.stirlings>>=
+as.numeric(stirling(100)/stirling(as.brob(100)))
+@
+
+\ldots pretty near.  But the great advantage of Brobdingnagian numbers
+is that they can handle numbers larger than the IEEE limit:
+
+<<stirling.of.1000>>=
+stirling(1000)
+stirling(as.brob(1000))
+@ 
+
+\noindent
+and this is accurate to about~12 sig figs, which is accurate enough
+for many purposes.  The number of sig figs decreases with
+progressively larger numbers, essentially because increasing amounts
+of floating point accuracy is gobbled up by storing the exponent of a
+large number, and less is left for the mantissa.
+
+
+\section*{Acknowledgments}
+
+I gratefully acknowledge the help given to me by many members of the
+\proglang{R}-help and \proglang{R}-devel lists, especially Martin Maechler, Brian Ripley,
+and John Chambers.
+
+\nocite{*}
+
+\bibliography{brob}
+\end{document}

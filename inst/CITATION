@@ -1,0 +1,15 @@
+citEntry(entry = "Article",
+	 title = {
+             paste("Very large numbers in R: Introducing package Brobdingnag")
+         },
+	 author = "R. K. S. Hankin",
+         journal = "R News",
+         year = "2007",
+	 volume = "7",
+	 issue = "3",
+	 textVersion = {
+             	     paste("R. K. S. Hankin 2007.",
+	                   "Very large numbers in R: Introducing package Brobdingnag",
+	                   "R News", 
+	                   "7(3)"
+)})

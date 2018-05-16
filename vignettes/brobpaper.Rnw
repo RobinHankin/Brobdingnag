@@ -1,0 +1,232 @@
+\documentclass[nojss]{jss}
+
+\usepackage{dsfont}
+\usepackage{bbm}
+\usepackage{amsfonts}
+\usepackage{wasysym}
+
+\author{Robin K. S. Hankin\\University of Cambridge}
+\title{Very large numbers in \proglang{R}: Introducing package \pkg{Brobdingnag}}
+%\VignetteIndexEntry{The Brobdingnag: package}
+
+\Plainauthor{Robin K. S. Hankin}
+\Plaintitle{Very large numbers in R: Introducing package Brobdingnag}
+\Plaintitle{Introducing package Brobdingnag}
+
+
+\Abstract{
+
+  This vignette shows how to use the \pkg{Brobdingnag} package to
+  manipulate very large numbers; it is based on~\cite{Rnews:Hankin:2007}.
+  
+  The other vignette shows how to use \proglang{S4} methods in the
+  context of a simple package.
+  }
+
+\Keywords{\proglang{S4} methods, Brobdingnag, \proglang{R}}
+\Plainkeywords{S4 methods, Brobdingnag, R}
+
+\Address{
+  Robin K. S. Hankin\\
+  The University of Cambridge\\
+  19 Silver Street\\
+  Cambridge CB3 9EP\\
+  United Kingdom\\
+  E-mail: \email{rksh1@cam.ac.uk}
+}
+
+%% need no \usepackage{Sweave.sty}
+\SweaveOpts{echo=TRUE}
+\begin{document}
+
+\newsymbol\leqslant 1336
+
+  
+\section{Introduction}
+
+The largest floating point number representable in standard double
+precision arithmetic is a little under~$2^{1024}$, or
+about~$1.79\times 10^{308}$.  This is too small for some applications.
+
+The \proglang{R} package \pkg{Brobdingnag}~\citep{swift1726} overcomes this limit
+by representing a real number~$x$ using a double precision variable
+with value~$\log\left|x\right|$, and a logical corresponding to~$x\geq
+0$; the \proglang{S4} class of such objects is \code{brob}.  Complex numbers with
+large absolute values (class \code{glub}) may be represented using a
+pair of \code{brob}s to represent the real and imaginary components.
+
+The package allows user-transparent access to the large numbers
+allowed by Brobdingnagian arithmetic.  The package also includes a
+vignette---\code{brob}---which documents the \proglang{S4} methods used and
+includes a step-by-step tutorial.  The vignette also functions as a
+``Hello, World!'' example of \proglang{S4} methods as used in a simple package.
+It also includes a full description of the \code{glub} class.
+
+\section[Package ``Brobdingnag'' in use]{Package \pkg{Brobdingnag} in use}
+
+Most readers will be aware of a googol which is equal to~$10^{100}$:
+
+<<googol_definition,echo=FALSE,print=FALSE>>=
+<<results=hide>>=
+require(Brobdingnag)
+<<echo=TRUE,print=TRUE>>=
+googol <- as.brob(10)^100
+@ 
+
+Note the coercion of \code{double} value \code{10} to an object of
+class \code{brob} using function \code{as.brob()}: raising this to the
+power~100 (also double) results in another \code{brob}.  The result is
+printed using exponential notation, which is convenient for very large
+numbers.
+
+A googol is well within the capabilities of standard double precision
+arithmetic.  Now, however, suppose we wish to compute its factorial.
+Taking the first term of Stirling's series gives
+
+<<define_f,echo=T,print=F>>=
+stirling <- function(n){n^n*exp(-n)*sqrt(2*pi*n)}
+@ 
+
+\noindent which then yields
+
+<<f_of_a_googol,echo=T,print=T>>=
+stirling(googol)
+@ 
+
+Note the transparent coercion to \code{brob} form within function
+\code{stirling()}.
+
+It is also possible to represent numbers very close to~1.  Thus
+
+<<TwoToTheGoogolth,echo=T>>=
+2^(1/googol)
+@ 
+
+It is worth noting that if~$x$ has an exact representation in double
+precision, then~$e^x$ is exactly representable using the system
+described here.  Thus~$e$ and~$e^{1000}$ may be represented exactly.
+
+\subsection{Accuracy}
+
+For small numbers (that is, representable using standard double
+precision floating point arithmetic), \pkg{Brobdingnag} suffers a
+slight loss of precision compared to normal representation.  Consider
+the following function, whose return value for nonzero arguments is
+algebraically zero:
+
+<<define_function_f,echo=F>>=
+f <- function(x){as.numeric( (pi*x -3*x -(pi-3)*x)/x)}
+@ 
+
+\begin{verbatim}
+f <- function(x){
+   as.numeric( (pi*x -3*x -(pi-3)*x)/x)
+}
+\end{verbatim}
+
+This function combines multiplication and addition; one might expect a
+logarithmic system such as described here to have difficulty with it.
+
+
+<<try.f.with.one.seventh,echo=T>>=
+f(1/7)
+f(as.brob(1/7))
+@ 
+
+This typical example shows that Brobdingnagian numbers suffer a slight
+loss of precision for numbers of moderate magnitude.  This degradation
+increases with the magnitude of the argument:
+
+<<try.f.with.a.googol,echo=T>>=
+f(1e100)
+f(as.brob(1e100))
+@ 
+
+Here, the brobs' accuracy is about two orders of magnitude worse than
+double precision arithmetic: this would be expected, as the number of
+bits required to specify the exponent goes as $\log\log x$.
+
+Compare
+
+
+<<try_f_with_bignumbers,echo=T>>=
+f(as.brob(10)^1000)
+@ 
+
+\noindent showing a further degradation of precision.  However,
+observe that conventional double precision arithmetic cannot deal with
+numbers this big, and the package returns about 12 correct significant
+figures.
+
+\section{A practical example}
+
+In the field of population dynamics, and especially the modelling of
+biodiversity~\citep{hankin2007b,hubbell2001}, complicated
+combinatorial formulae often arise.
+
+\citet{etienne2005}, for example, considers a sample of~$N$
+individual organisms taken from some natural population; the sample
+includes~$S$ distinct species, and each individual is assigned a label
+in the range~$1$ to~$S$.  The sample comprises~$n_i$ members of
+species~$i$, with~$1\leq i\leq S$ and~$\sum n_i=N$.  For a given
+sample~$D$ Etienne defines, amongst other terms, $K(D,A)$ for $1\leq
+A\leq N-S+1$ as
+
+\begin{equation}
+\sum_{
+\left\{
+a_1,\ldots,a_S\left|
+\sum_{i=1}^S a_i=A\right.
+\right\}}
+\prod_{i=1}^S
+\frac{
+\overline{s}(n_i,a_i)
+\overline{s}(a_i,1)}{
+\overline{s}(n_i,1)}
+\end{equation}
+
+\noindent
+where~$\overline{s}(n,a)$ is the Stirling number of the second
+kind~\citep{abramowitz1965}.  The summation is over~$a_i=1,\ldots,n_i$
+with the restriction that the~$a_i$ sum to~$A$, as carried out by
+\code{blockparts()} of the \pkg{partitions}
+package~\citep{hankin2006,hankin2007}.
+
+Taking an intermediate-sized dataset due to Saunders\footnote{The
+dataset comprises species counts on kelp holdfasts;
+here \code{saunders.exposed.tot} of package
+\pkg{untb}~\citep{hankin2007b}, is used.} of only~5903 individuals---a
+relatively small dataset in this context---the maximal element
+of~$K(D,A)$ is about~$1.435\times 10^{1165}$.  The accuracy of package
+\pkg{Brobdingnag} in this context may be assessed by comparing it with
+that computed by \proglang{PARI/GP}~\citep{batut2000} with a working precision
+of~100 decimal places; the natural logs of the two values
+are~$2682.8725605988689$ and~$2682.87256059887$ respectively:
+identical to 14 significant figures.
+
+
+%Pari with 100 decimal places gives 2682.872560598868918515209515642292607616628612201118344882119616522539674163937533805390351760715777.
+
+%            2682.8725605988689
+%and with R: 2682.87256059887
+
+
+
+
+\section{Conclusions}
+
+The \pkg{Brobdingnag} package allows representation and manipulation
+of numbers larger than those covered by standard double precision
+arithmetic, although accuracy is eroded for very large numbers.  This
+facility is useful in several contexts, including combinatorial
+computations such as encountered in theoretical modelling of
+biodiversity.
+
+\subsubsection*{Acknowledgments}
+I would like to acknowledge the many stimulating and helpful comments
+made by the \proglang{R}-help list over the years.
+
+
+\bibliography{brob}
+
+\end{document}
