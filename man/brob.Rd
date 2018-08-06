@@ -36,14 +36,27 @@ this would be an \strong{exact} representation.
 }
 
 \note{
+  Real numbers are represented by two objects: a real, holding the
+  logarithm of their absolute values; and a logical, indicating the
+  sign.  Multiplication and exponentiation are easy: the challenge is
+  addition.  This is achieved using the (trivial) identity
+  \eqn{\log(e^x+e^y)=x+\log(1+e^{y-x})}{log(e^x+e^y)=x+log(1+e^(y-x))}
+  where, WLOG, \eqn{y<x}.
 
-  The package has poor handling of \code{NA} and \code{NaN}:
+  Complex numbers are stored as a pair of \code{brob}s: objects of class
+  \code{glub}. 
 
-  \code{as.brob(1) + as.brob(c(1,NA))}
+  The package is a simple example of S4 methods.  However, it
+  \emph{could} be viewed as a cautionary tale: the underlying \R
+  concepts are easy yet the S4 implementation is long and difficult.  I
+  would not recommend using S4 methods for a package as simple as this;
+  S3 methods would have been perfectly adequate.  I would suggest that
+  S4 methods should only be used when S3 methods are \emph{demonstrably}
+  inadequate.
 
-  currently returns an error.
-
-  }
+  The package has poor handling of \code{NA} and \code{NaN}.  Currently,
+  \code{as.brob(1) + as.brob(c(1,NA))} returns an error.
+}
 
 \author{Robin K. S, Hankin}
 \seealso{\code{\link{glub}}}
