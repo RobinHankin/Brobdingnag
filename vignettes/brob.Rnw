@@ -11,8 +11,8 @@
 
 
 \Plainauthor{Robin K. S. Hankin}
-\Plaintitle{Integer Partitions in R} 
-\Shorttitle{Integer Partitions in R}
+\Plaintitle{Brobdingnagian numbers in S4} 
+\Shorttitle{Brobdingnagian numbers in S4}
 
 \Abstract{
   This vignette shows how to use \proglang{S4} methods to create a
