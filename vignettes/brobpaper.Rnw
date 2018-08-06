@@ -5,7 +5,7 @@
 \usepackage{amsfonts}
 \usepackage{wasysym}
 
-\author{Robin K. S. Hankin\\University of Cambridge}
+\author{Robin K. S. Hankin\\Auckland University of Technology}
 \title{Very large numbers in \proglang{R}: Introducing package \pkg{Brobdingnag}}
 %\VignetteIndexEntry{The Brobdingnag: package}
 
@@ -28,11 +28,8 @@
 
 \Address{
   Robin K. S. Hankin\\
-  The University of Cambridge\\
-  19 Silver Street\\
-  Cambridge CB3 9EP\\
-  United Kingdom\\
-  E-mail: \email{rksh1@cam.ac.uk}
+  Auckland University of Technology
+  E-mail: \email{hankin.robin@gmail.com}
 }
 
 %% need no \usepackage{Sweave.sty}
