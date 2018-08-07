@@ -2,9 +2,17 @@
 \alias{Brobdingnag-package}
 \alias{Brobdingnag}
 \docType{package}
-\title{\packageTitle{Brobdingnag}}
-\description{\packageDescription{Brobdingnag}}
+\title{
+\packageTitle{Brobdingnag}
+}
+\description{
+\packageDescription{Brobdingnag}
+}
 \details{
+
+The DESCRIPTION file:
+\packageDESCRIPTION{Brobdingnag}
+\packageIndices{Brobdingnag}
   Real numbers are represented by two objects: a real, holding the
   logarithm of their absolute values; and a logical, indicating the
   sign.  Multiplication and exponentiation are easy: the challenge is
@@ -24,11 +32,9 @@
   I would suggest that S4 methods should only be used when S3 methods
   are \emph{demonstrably} inadequate.
 
-  There is a vignette, \dQuote{brobpaper}.
-
 }
 \author{
-  \packageAuthor{Brobdingnag}
+\packageAuthor{Brobdingnag}
 
 Maintainer: \packageMaintainer{Brobdingnag}
 }
@@ -39,11 +45,21 @@ Brobdingnag}.  R News, volume 7, number 3, pages 15-16
 }
 \keyword{ package }
 \examples{
-
 googol <- as.brob(10)^100
-googolplex <- 10^googol
 
+googol
+googol + googol/2
+
+1/(googol + 1e99)
 
 (1:10)^googol
+
+googolplex <- 10^googol
+
+googolplex
+
+googolplex * googol  # practically the same as googolplex (!)
+
+
 
 }
