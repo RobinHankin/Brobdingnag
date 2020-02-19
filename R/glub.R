@@ -1,7 +1,6 @@
 setClass("glub",
-         representation = representation(real="brob",imag="brob"),
-         prototype      = list(real=new("brob"), imag=new("brob")),
-         contains       = "swift"
+         slots    = c(real="brob",imag="brob"),
+         contains = "swift"
          )
 
 ".Glub.valid" <- function(object){
