@@ -15,14 +15,18 @@ setValidity("brobmat", .Brob.valid)
     new("brobmat", x=x, positive=c(positive)) # this is the only use of new() here
 }
 
-`brobmat` <- function(...){
-    jj <- matrix(...)
-    return(newbrobmat(abs(jj),c(jj>0)))
+`brobmat` <- function(..., positive){
+    if(is.matrix(list(...)[[1]])){return(as.brobmat(list(...)[[1]]))}
+    M <- matrix(...)
+    if(missing(positive)){positive <- rep(TRUE,length(M))}
+    positive <- cbind(c(M),positive)[,2]>0
+    return(newbrobmat(M,positive=positive))
 }
-    
+
 `is.brobmat` <- function(x){is(x,"brobmat")}
 
 setMethod("getX","brobmat",function(x){x@x})
+setMethod("getX","numeric",function(x){x})
 setMethod("getP","brobmat",function(x){
     out <- getX(x)
     storage.mode(out) <- "logical"
@@ -30,6 +34,7 @@ setMethod("getP","brobmat",function(x){
     ## No occurrences of '@' after this line
     return(out)
 })
+setMethod("getP","numeric",function(x){x>0})
 
 `as.brobmat` <- function(x){
   if(is.brob(x)){
@@ -79,15 +84,7 @@ setReplaceMethod("[",signature(x="brobmat"),
                  function(x,i,j,value){
                    jj.x <- getX(x)
                    jj.pos <- getP(x)
-                   if(is.brobmat(value)){
-                     jj.x[i,j] <- getX(value)  # matrix or vector
-                     jj.pos[i,j] <- getP(value)
-                     return(brobmat(x=jj.x,positive=jj.pos))
-                   } else {
-                     x[i,j] <- as.brob(value)
-                     return(x)
-                   }
+                   jj.x[i,j] <- getX(value)  # matrix or vector
+                   jj.pos[i,j] <- getP(value)
+                   return(brobmat(x=jj.x,positive=jj.pos))
                  } )
-
-
-
