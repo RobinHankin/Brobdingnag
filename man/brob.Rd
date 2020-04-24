@@ -11,7 +11,6 @@ brob(x = double(), positive)
 as.brob(x)
 is.brob(x)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{x}{Quantity to be tested, coerced in to Brobdingnagian form}
   \item{positive}{In function \code{brob()}, logical indicating whether
