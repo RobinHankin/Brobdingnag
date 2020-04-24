@@ -3,7 +3,7 @@
 \alias{cBrob}
 \title{Combine Brobdingnagian vectors}
 \description{
-  Combine  Brobdingnagian or Glubdubbdribian vectors through concatenation
+  Combine Brobdingnagian or Glubdubbdribian vectors through concatenation
 }
 \usage{
 cbrob(x, ...)
