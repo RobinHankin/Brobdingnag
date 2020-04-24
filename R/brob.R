@@ -3,9 +3,8 @@ setClass("swift",
          )
 
 setClass("brob",
-         representation = representation(x="numeric",positive="logical"),
-         prototype      = list(x=numeric(),positive=logical()),
-         contains       = "swift"
+         slots    = c(x="numeric",positive="logical"),
+         contains = "swift"
          )
 
 ".Brob.valid" <- function(object){
