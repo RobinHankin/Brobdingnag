@@ -11,7 +11,7 @@
 \alias{getX,brob-method}
 \alias{sign<-,brob-method}
 
-\title{Class "brob" }
+\title{Class \dQuote{brob}}
 \description{
   The formal S4 class for Brobdingnagian numbers
   }
