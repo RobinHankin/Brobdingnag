@@ -54,6 +54,8 @@ setAs("brobmat", "matrix", function(from){
   return(out)
 } )
 
+`brobmat_to_brob` <- function(x){ brob(c(getX(x)),c(getP(x))) }
+
 setMethod("as.matrix",signature(x="brobmat"),function(x){as(x,"matrix")})
 
 `.brobmat.print` <- function(x, digits=5){
@@ -72,6 +74,7 @@ setMethod("show", "brobmat", function(object){print.brobmat(object)})
 
 setMethod("[", "brobmat",
           function(x, i, j,  drop){
+              if(missing(j)){ return(as.brob(x)[i]) }
               xv <- getX(x)[i,j,drop=drop]
               if(drop & (!is.matrix(xv))){
                   return(brob(xv,getP(x)[i,j]))
