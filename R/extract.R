@@ -1,5 +1,3 @@
-## Following modified from the Matrix package:
-setClassUnion("index", members =  c("numeric", "logical", "character"))
 
 
 ## "x[]":

@@ -1,7 +1,3 @@
-setClass("glub",
-         slots    = c(real="brob",imag="brob"),
-         contains = "swift"
-         )
 
 ".Glub.valid" <- function(object){
   if(length(object@real) == length(object@imag)){

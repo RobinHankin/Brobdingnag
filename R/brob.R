@@ -1,11 +1,3 @@
-setClass("swift",
-         representation = "VIRTUAL"
-         )
-
-setClass("brob",
-         slots    = c(x="numeric",positive="logical"),
-         contains = "swift"
-         )
 
 ".Brob.valid" <- function(object){
   len <- length(object@positive)

@@ -1,4 +1,4 @@
-setClass("brobmat", slots = c(x="matrix",positive="logical"))
+
 
 `.brobmat.valid` <- function(object){
 
@@ -82,18 +82,6 @@ setMethod("ncol",signature(x="brobmat"),function(x){ncol(getX(x))})
 }
 
 setMethod("show", "brobmat", function(object){print.brobmat(object)})
-
-
-
-setReplaceMethod("[",signature(x="brobmat"),
-                 function(x,i,j,value){
-                   jj.x <- getX(x)
-                   jj.pos <- getP(x)
-                   jj.x[i,j] <- getX(value)  # matrix or vector
-                   jj.pos[i,j] <- getP(value)
-                   return(brobmat(x=jj.x,positive=jj.pos))
-                 } )
-
 
 
 
