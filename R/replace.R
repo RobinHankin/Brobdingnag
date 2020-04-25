@@ -4,7 +4,12 @@ setReplaceMethod("[",
                            i = "missing", j = "missing",
                            value = "ANY"),
 		 function (x, i, j, ..., value){
-                     stop("replacement method 1 not implemented")
+                     value <- as.brob(value)
+                     jj.x <- getX(x)
+                     jj.pos <- getP(x)
+                     jj.x[] <- getX(value)  # matrix or vector
+                     jj.pos[] <- getP(value)
+                     return(newbrobmat(x=jj.x,positive=jj.pos))
                  } )
 
 ## x[i,] <- value
@@ -13,7 +18,12 @@ setReplaceMethod("[",
                            i = "index", j = "missing",
                            value = "ANY"),
 		 function (x, i, j, ..., value){
-                     stop("replacement method 2 not implemented")
+                     value <- as.brob(value)
+                     jj.x <- getX(x)
+                     jj.pos <- getP(x)
+                     jj.x[i,] <- getX(value)  # matrix or vector
+                     jj.pos[i,] <- getP(value)
+                     return(newbrobmat(x=jj.x,positive=jj.pos))
                  } )
 
 ## x[,j] <- value
@@ -22,9 +32,13 @@ setReplaceMethod("[",
                            i = "missing", j = "index",
                            value = "ANY"),
 		 function (x, i, j, ..., value){
-                     stop("replacement method 3 not implemented")
+                     value <- as.brob(value)
+                     jj.x <- getX(x)
+                     jj.pos <- getP(x)
+                     jj.x[,j] <- getX(value)  # matrix or vector
+                     jj.pos[,j] <- getP(value)
+                     return(newbrobmat(x=jj.x,positive=jj.pos))
                  } )
-
 
 ## x[i,j] <- value
 setReplaceMethod("[",
