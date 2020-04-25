@@ -15,13 +15,16 @@ setValidity("brobmat", .Brob.valid)
     new("brobmat", x=x, positive=c(positive)) # this is the only use of new() here
 }
 
-`brobmat` <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE, dimnames = NULL,positive){
-    if(is.matrix(data)){
+`brobmat` <- function(..., positive){
+    data <- list(...)[[1]]
+    if(is.matrix(data)){ 
         M <- data
     } else if(is.brob(data)){
-        return(newbrobmat(x=matrix(getX(data),nrow=length(data),ncol=ncol,byrow=byrow,dimnames=dimnames), positive=c(getP(data))))
+        jj <- list(...)
+        jj[[1]] <- getX(data)
+        M <- do.call(matrix,jj)
     } else { 
-        M <- matrix(data = data, nrow = nrow, ncol = ncol, byrow = byrow, dimnames = dimnames)
+        M <- matrix(...)
     }
     if(missing(positive)){positive <- rep(TRUE,length(M))}
     positive <- cbind(c(M),positive)[,2]>0
@@ -239,3 +242,6 @@ setMethod("Compare", signature(e1="brobmat", e2="brobmat"), brobmat.compare)
     } # i loop closes
 }
 setMethod("%*%", signature(x="brobmat", y="ANY"), brobmat_matrixprod)
+
+setGeneric("as.vector")
+setMethod("as.vector", signature(x="brobmat"), function(x){as.brob(x)})
