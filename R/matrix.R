@@ -83,16 +83,7 @@ setMethod("ncol",signature(x="brobmat"),function(x){ncol(getX(x))})
 
 setMethod("show", "brobmat", function(object){print.brobmat(object)})
 
-setMethod("[", "brobmat",
-          function(x, i, j,  drop){
-              if(missing(j)){ return(as.brob(x)[i]) }
-              xv <- getX(x)[i,j,drop=drop]
-              if(drop & (!is.matrix(xv))){
-                  return(brob(xv,getP(x)[i,j]))
-              } else {
-                  return(newbrobmat(xv, getP(x)[i,j,drop=FALSE]))
-              }
-          } )
+
 
 setReplaceMethod("[",signature(x="brobmat"),
                  function(x,i,j,value){
@@ -248,3 +239,15 @@ setMethod("Compare", signature(e1="brobmat", e2="ANY"    ), brobmat.compare)
 setMethod("Compare", signature(e1="ANY"    , e2="brobmat"), brobmat.compare)
 setMethod("Compare", signature(e1="brobmat", e2="brobmat"), brobmat.compare)
 
+
+
+`brobmat_matrixprod` <- function(x,y){
+    stopifnot(ncol(x)==nrow(y))
+    out <- brobmat(NA,nrow(x),ncol(y))
+    for(i in seq_len(ncol(x))){
+        for(j in seq_len(nrow(y))){
+            out[i,j] <- sum(x[i,,drop=TRUE]*y[,j,drop=TRUE])
+        } # j loop closes
+    } # i loop closes
+}
+setMethod("%*%", signature(x="brobmat", y="ANY"), brobmat_matrixprod)
