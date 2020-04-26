@@ -240,12 +240,51 @@ setMethod("Compare", signature(e1="brobmat", e2="brobmat"), brobmat.compare)
             out[i,j] <- sum(x[i,,drop=TRUE]*y[,j,drop=TRUE])
         } # j loop closes
     } # i loop closes
+    if(!is.null(rownames(x))){rownames(out) <- rownames(x)}
+    if(!is.null(colnames(x))){colnames(out) <- colnames(y)}
     return(out)
 }
 
-setMethod("%*%", signature(x="brobmat", y="ANY"), brobmat_matrixprod)
-setMethod("%*%", signature(x="ANY", y="brobmat"), brobmat_matrixprod)
+setMethod("%*%", signature(x="brobmat", y="ANY"    ), brobmat_matrixprod)
+setMethod("%*%", signature(x="ANY"    , y="brobmat"), brobmat_matrixprod)
+setMethod("%*%", signature(x="brobmat", y="brobmat"), brobmat_matrixprod)
 
 setGeneric("as.vector")
 setMethod("as.vector", signature(x="brobmat"), function(x){as.brob(x)})
 setMethod("as.vector", signature(x="brob"), function(x){x})
+
+setGeneric("rownames")
+setMethod("rownames", signature(x="brobmat"), function(x){rownames(getX(x))})
+
+setGeneric("colnames")
+setMethod("colnames", signature(x="brobmat"), function(x){colnames(getX(x))})
+
+setGeneric("dimnames")
+setMethod("dimnames", signature(x="brobmat"), function(x){dimnames(getX(x))})
+
+setGeneric("rownames<-")
+setMethod("rownames<-", signature(x="brobmat"),
+          function(x,value){
+              jj <- getX(x)
+              rownames(jj) <- value
+              return(brobmat(jj,getP(x)))
+          } )
+
+setGeneric("colnames<-")
+setMethod("colnames<-", signature(x="brobmat"),
+          function(x,value){
+              jj <- getX(x)
+              colnames(jj) <- value
+              return(brobmat(jj,getP(x)))
+          } )
+
+
+setGeneric("dimnames<-")
+setMethod("dimnames<-", signature(x="brobmat"),
+          function(x,value){
+              jj <- getX(x)
+              dimnames(jj) <- value
+              return(brobmat(jj,getP(x)))
+          } )
+
+
