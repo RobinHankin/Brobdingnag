@@ -278,7 +278,6 @@ setMethod("colnames<-", signature(x="brobmat"),
               return(brobmat(jj,getP(x)))
           } )
 
-
 setGeneric("dimnames<-")
 setMethod("dimnames<-", signature(x="brobmat"),
           function(x,value){
@@ -286,5 +285,13 @@ setMethod("dimnames<-", signature(x="brobmat"),
               dimnames(jj) <- value
               return(brobmat(jj,getP(x)))
           } )
+
+setGeneric("diag", function(x, ...){standardGeneric("diag")})
+setMethod("diag", signature(x="brobmat"),function(x,...){brob(diag(getX(x)),diag(getP(x)))})
+setMethod("diag", signature(x="ANY"), function(x,...){base::diag(x)})
+
+setGeneric("t", function(x, ...) standardGeneric("t"))
+setMethod("t", signature(x="brobmat"),function(x,...){brob(t(getX(x)),t(getP(x)))})
+setMethod("t", signature(x="ANY"),function(x,...){base::t(x)})
 
 
