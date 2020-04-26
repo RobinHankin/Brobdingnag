@@ -245,3 +245,4 @@ setMethod("%*%", signature(x="brobmat", y="ANY"), brobmat_matrixprod)
 
 setGeneric("as.vector")
 setMethod("as.vector", signature(x="brobmat"), function(x){as.brob(x)})
+setMethod("as.vector", signature(x="brob"), function(x){x})
