@@ -65,6 +65,7 @@ setAs("brobmat", "matrix", function(from){
 
 `brobmat_to_brob` <- function(x){ brob(c(getX(x)),c(getP(x))) }
 
+
 setMethod("as.matrix",signature(x="brobmat"),function(x){as(x,"matrix")})
 setGeneric("nrow")
 setGeneric("ncol")
@@ -231,17 +232,19 @@ setMethod("Compare", signature(e1="ANY"    , e2="brobmat"), brobmat.compare)
 setMethod("Compare", signature(e1="brobmat", e2="brobmat"), brobmat.compare)
 
 
-
 `brobmat_matrixprod` <- function(x,y){
     stopifnot(ncol(x)==nrow(y))
     out <- brobmat(NA,nrow(x),ncol(y))
-    for(i in seq_len(ncol(x))){
-        for(j in seq_len(nrow(y))){
+    for(i in seq_len(nrow(x))){
+        for(j in seq_len(ncol(y))){
             out[i,j] <- sum(x[i,,drop=TRUE]*y[,j,drop=TRUE])
         } # j loop closes
     } # i loop closes
+    return(out)
 }
+
 setMethod("%*%", signature(x="brobmat", y="ANY"), brobmat_matrixprod)
+setMethod("%*%", signature(x="ANY", y="brobmat"), brobmat_matrixprod)
 
 setGeneric("as.vector")
 setMethod("as.vector", signature(x="brobmat"), function(x){as.brob(x)})
