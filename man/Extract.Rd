@@ -7,6 +7,10 @@
 \alias{[<-,brob-method}
 \alias{[,glub-method}
 \alias{[<-,glub-method}
+\alias{[,brob,ANY,ANY-method}
+\alias{[,glub,ANY,ANY-method}
+\alias{[<-,brob,ANY,ANY-method}
+\alias{[<-,glub,ANY,ANY-method}
 \title{Extract or Replace Parts of brobs or glubs}
 \description{
    Methods for \code{"["} and  \code{"[<-"}, i.e., extraction or
