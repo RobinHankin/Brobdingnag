@@ -9,6 +9,7 @@
 \alias{brobmat.compare}
 \alias{brobmat.arith}
 \alias{brobmat_matrixprod}
+\alias{getat}
 \title{
 Brobdingagian matrix arithmetic
 }
@@ -21,14 +22,19 @@ brobmat.power(e1, e2)
 brobmat.inverse(e1)
 brobmat.greater(e1, e2)
 brobmat.equal(e1, e2)
+getat(e1,e2)
 }
 \arguments{
   \item{e1,e2}{Arguments coerced to \code{brobmat}
   }
 }
 \details{
+
 These functions are helper functions used by the \code{brobmat} Arith
-group.
+group and are not designed to be user-friendly.  Function \code{getat()}
+is a helper function that sets attributes such as dimnames of returned
+values.
+
 }
 \value{
 Return a \code{brobmat}, or logical for the comparison operators.
