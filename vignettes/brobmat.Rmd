@@ -1,0 +1,106 @@
+---
+title: "Brobdingnagian matrices"
+author: "Robin K. S. Hankin"
+date: "`r Sys.Date()`"
+vignette: >
+  %\VignetteIndexEntry{brobmat}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r set-options, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 3.5, message = FALSE, warning = FALSE)
+options(width = 80, tibble.width = Inf)
+```
+
+# Brobdgingnagian matrices
+
+R package `Brobdingnag` has basic functionality for matrices.  It
+includes matrix multiplication and addition, but determinants and
+matrix inverses are not implemented.  First load the package:
+
+```{r}
+library("Brobdingnag")
+```
+
+The standard way to create a Brobdgingnagian matrix (a `brobmat`) is
+to use function `brobmat()` which takes arguments similar to
+`matrix()` and returns a matrix of entries created with `brob()`:
+
+```{r}
+M1 <- brobmat(-10:13,4,6)
+colnames(M1) <- state.abb[1:6]
+M1
+```
+
+Function `brobmat()` takes an argument `positive` which specifies the sign:
+
+```{r}
+M2 <- brobmat(
+c(1,104,-66,45,1e40,-2e40,1e-200,232.2),2,4,
+positive=c(T,F,T,T,T,F,T,T))
+M2
+```
+
+Standard matrix arithmetic is implemented, thus:
+
+```{r}
+rownames(M2) <- c("a","b")
+colnames(M2) <- month.abb[1:4]
+M2
+M2[2,3] <- 0
+M2
+M2+1000
+```
+
+We can also do matrix multiplication, although it is slow:
+
+
+```{r}
+M2 %*% M1
+```
+
+
+## Numerical verification
+
+We will verify matrix multiplication by carrying out the same
+operation in two different ways.  First, create two largish
+Brobdingnagian matrices:
+
+```{r}
+nrows <- 11
+ncols <- 18
+M3 <- brobmat(rnorm(nrows*ncols),nrows,ncols,positive=sample(c(T,F),nrows*ncols,replace=T))
+M4 <- brobmat(rnorm(nrows*ncols),ncols,nrows,positive=sample(c(T,F),nrows*ncols,replace=T))
+M3[1:3,1:3]
+```
+
+Now calculate the matrix product by coercing to numeric matrices and
+multiplying:q
+
+
+```{r}
+p1 <- as.matrix(M3) %*% as.matrix(M4)
+```
+
+and then by using Brobdingnagian matrix multiplying, and then coercing
+to numeric:
+
+```{r}
+p2 <- as.matrix(M3 %*% M4)
+```
+
+The difference:
+
+```{r}
+max(abs(p1-p2))
+```
+
+is small.  Now the other way:
+
+```{r}
+q1 <- M3 %*% M4
+q2 <- as.brobmat(as.matrix(M3) %*% as.matrix(M4))
+max(abs(as.brob(q1-q2)))
+```
+
