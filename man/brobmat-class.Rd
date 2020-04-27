@@ -50,7 +50,8 @@
 
 \title{Class \code{"brobmat"}}
 \description{
-The \code{brobmat} class provides basic Brobdingnagian arithmetic for matrices.
+  The \code{brobmat} class provides basic Brobdingnagian arithmetic for
+  matrices.
 }
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("brobmat", ...)},
@@ -59,8 +60,10 @@ user-friendly.
 }
 \section{Slots}{
   \describe{
-    \item{\code{x}:}{Object of class \code{"matrix"} ~~ }
-    \item{\code{positive}:}{Object of class \code{"logical"} ~~ }
+    \item{\code{x}:}{Object of class \code{"matrix"} that specifes the
+      exponent}
+    \item{\code{positive}:}{Object of class \code{"logical"} that
+      specifies the sign}
   }
 }
 \section{Methods}{
