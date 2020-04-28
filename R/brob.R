@@ -35,7 +35,7 @@ setValidity("brob", .Brob.valid)
   } else if(is.brobmat(x)){
       return(brobmat_to_brob(x))
   } else {
-    return(brob(log(abs(x)), x>=0))
+    return(brob(log(abs(c(x))), c(x)>=0))
   }
 }
 
