@@ -7,9 +7,11 @@
 \alias{[,brobmat,index,missing-method}
 \alias{[,brobmat,missing,index-method}
 \alias{[,brobmat,missing,missing-method}
+\alias{[,brobmat,matrix,missing-method}
 \alias{[<-,brobmat,index,index-method}
 \alias{[<-,brobmat,index,missing-method}
 \alias{[<-,brobmat,missing,index-method}
+\alias{[<-,brobmat,matrix,missing-method}
 \alias{[<-,brobmat,missing,missing-method}
 \alias{\%*\%,ANY,brobmat-method}
 \alias{\%*\%,brobmat,ANY-method}
@@ -73,9 +75,11 @@ user-friendly.
     \item{[}{\code{signature(x = "brobmat", i = "index", j = "missing")}: ... }
     \item{[}{\code{signature(x = "brobmat", i = "missing", j = "index")}: ... }
     \item{[}{\code{signature(x = "brobmat", i = "missing", j = "missing")}: ... }
+    \item{[}{\code{signature(x = "brobmat", i = "matrix", j = "missing")}: ... }
     \item{[<-}{\code{signature(x = "brobmat", i = "index", j = "index")}: ... }
     \item{[<-}{\code{signature(x = "brobmat", i = "index", j = "missing")}: ... }
     \item{[<-}{\code{signature(x = "brobmat", i = "missing", j = "index")}: ... }
+    \item{[<-}{\code{signature(x = "brobmat", i = "matrix", j = "missing")}: ... }
     \item{[<-}{\code{signature(x = "brobmat", i = "missing", j = "missing")}: ... }
     \item{\%*\%}{\code{signature(x = "ANY", y = "brobmat")}: ... }
     \item{\%*\%}{\code{signature(x = "brobmat", y = "ANY")}: ... }

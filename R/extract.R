@@ -40,6 +40,16 @@ setMethod("[",
               }
 	  } )
 
+## matrix indexing
+setMethod("[",
+          signature(x = "brobmat",
+                    i = "matrix", j = "missing",
+                    drop = "ANY"),
+	  function(x,i,j, ..., drop) {
+              xv <- getX(x)[i]
+              return(brobmat(getX(x)[i], getP(x)[i]))
+	  } )
+
 ## select both rows *and* columns
 setMethod("[",
           signature(x = "brobmat",

@@ -40,6 +40,20 @@ setReplaceMethod("[",
                      return(newbrobmat(x=jj.x,positive=jj.pos))
                  } )
 
+## x[cbind(1:3,2:4)] <- value
+setReplaceMethod("[",
+                 signature(x = "brobmat",
+                           i = "matrix", j = "missing",
+                           value = "ANY"),
+		 function (x, i, j, ..., value){
+                     value <- as.brob(value)
+                     jj.x <- getX(x)
+                     jj.pos <- getP(x)
+                     jj.x[i] <- getX(value)  # matrix or vector
+                     jj.pos[i] <- getP(value)
+                     return(newbrobmat(x=jj.x,positive=jj.pos))
+                 } )
+
 ## x[i,j] <- value
 setReplaceMethod("[",
                  signature(x = "brobmat",
