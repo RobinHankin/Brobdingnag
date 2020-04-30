@@ -22,7 +22,8 @@ setValidity("brobmat", .Brob.valid)
     } else if(is.brob(data)){
         jj <- list(...)
         jj[[1]] <- getX(data)
-        M <- do.call(matrix,jj)
+        M <- do.call(matrix,jj) # signs not accounted for
+        return(newbrobmat(M,positive=getP(data)))
     } else { 
         M <- matrix(...)
     }
