@@ -19,10 +19,13 @@ is.glub(x)
 }
 \details{
 
+A \dfn{Glubbdubdribian} number is the Brobdingnagian equivalent of a
+complex number.
+
 Function \code{glub()} takes two arguments that are coerced to
-Brobdingnagian numbers and returns a complex number.  This function is
-not really intended for the end user: it is confusing and includes no
-argument checking.  Use function \code{as.glub()} instead.
+Brobdingnagian numbers and returns a Glubbdubdribian number.  This
+function is not really intended for the end user: it is confusing and
+includes no argument checking.  Use function \code{as.glub()} instead.
 
 Function \code{as.glub()} is the user's workhorse: use this to coerce
 numeric or complex vectors to Glubbdubdribian form.
