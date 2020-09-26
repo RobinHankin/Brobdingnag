@@ -42,7 +42,9 @@ Class \code{"swift"}, directly.
 a <- as.brob(45)
 new("glub",real=a, imag=a)
 
-as.brob(5+5i)   # standard colloquial R idiom
+as.brob(5+5i)   # standard R idiom; imaginary component discarded
+as.glub(5+5i)   # returns a Glubbdubdribian object
+
 
 }
 \keyword{classes}
