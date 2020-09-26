@@ -1,11 +1,3 @@
-setClass("swift",
-         representation = "VIRTUAL"
-         )
-
-setClass("brob",
-         slots    = c(x="numeric",positive="logical"),
-         contains = "swift"
-         )
 
 ".Brob.valid" <- function(object){
   len <- length(object@positive)
@@ -40,8 +32,10 @@ setValidity("brob", .Brob.valid)
   } else if(is.glub(x)){
     warning("imaginary parts discarded")
     return(Re(x))
+  } else if(is.brobmat(x)){
+      return(brobmat_to_brob(x))
   } else {
-    return(brob(log(abs(x)), x>=0))
+    return(brob(log(abs(c(x))), c(x)>=0))
   }
 }
 
@@ -76,6 +70,8 @@ setGeneric("getP",function(x){standardGeneric("getP")})
 setMethod("getX","brob",function(x){x@x})
 setMethod("getP","brob",function(x){x@positive})
 setMethod("length","brob",function(x){length(x@x)})
+
+setMethod("is.infinite","brob",function(x){is.infinite(x@x)})
 
 setGeneric("sign<-",function(x,value){standardGeneric("sign<-")})
 setMethod("sign<-","brob",function(x,value){
