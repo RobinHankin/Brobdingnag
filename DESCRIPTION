@@ -10,6 +10,7 @@ Description: Very large numbers in R.  Real numbers are held
         sign.  Functionality for complex numbers is also provided.  The
         package includes a vignette that gives a step-by-step
         introduction to using S4 methods.
+Suggests: cubature
 License: GPL
 Repository: CRAN
 URL: https://github.com/RobinHankin/Brobdingnag.git

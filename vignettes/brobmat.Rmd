@@ -61,7 +61,7 @@ M2 %*% M1
 ```
 
 
-## Numerical verification
+## Numerical verification: matrix multiplication
 
 We will verify matrix multiplication by carrying out the same
 operation in two different ways.  First, create two largish
@@ -104,3 +104,52 @@ q2 <- as.brobmat(as.matrix(M3) %*% as.matrix(M4))
 max(abs(as.brob(q1-q2)))
 ```
 
+
+## Numerical verification: integration with the `cubature` package
+
+The matrix functionality of the `Brobdingnag` package was originally
+written to leverage the functionality of the `cubature` package.  Here
+I give some numerical verification for this.
+
+Suppose we wish to evaluate
+
+\[
+\int_{x=-2}^{x=+3}(x^2-4)\,dx
+\]
+
+using numerical methods.  See how the integrand includes positive and
+negative values.
+
+The `cubature` idiom for this would be
+
+```{r,label = numericalintegration}
+library("cubature")
+
+f.numeric <- function(x){x^2 - 4}
+
+out.num <- cubature::hcubature(f = f.numeric, lowerLimit = -2, upperLimit = 2, vectorInterface = TRUE)
+out.num
+```
+
+and the Brobdingnagian equivalent would be
+
+
+```{r,label = numericalintegrationbrob}
+
+f.brob <- function(x) {
+	x <- as.brob(x[1, ])
+	as.matrix( brobmat(x^2 - 4, ncol = length(x)))
+}
+
+out.brob <- cubature::hcubature(f = f.brob, lowerLimit = -2, upperLimit = 2, vectorInterface = TRUE)
+out.brob
+```
+
+
+
+
+We may compare the two methods:
+
+```{r,label=comparebrobandnumeric}
+out.brob$integral - out.num$integral
+```
