@@ -114,12 +114,11 @@ I give some numerical verification for this.
 Suppose we wish to evaluate
 
 \[
-\int_{x=-2}^{x=+3}(x^2-4)\,dx
+\int_{x=0}^{x=4}(x^2-4)\,dx
 \]
 
 using numerical methods.  See how the integrand includes positive and
-negative values.
-
+negative values; the theoretical value is $\frac{16}{3}=5.33\ldots$.
 The `cubature` idiom for this would be
 
 ```{r,label = numericalintegration}
@@ -127,7 +126,7 @@ library("cubature")
 
 f.numeric <- function(x){x^2 - 4}
 
-out.num <- cubature::hcubature(f = f.numeric, lowerLimit = -2, upperLimit = 2, vectorInterface = TRUE)
+out.num <- cubature::hcubature(f = f.numeric, lowerLimit = 0, upperLimit = 4, vectorInterface = TRUE)
 out.num
 ```
 
@@ -141,12 +140,9 @@ f.brob <- function(x) {
 	as.matrix( brobmat(x^2 - 4, ncol = length(x)))
 }
 
-out.brob <- cubature::hcubature(f = f.brob, lowerLimit = -2, upperLimit = 2, vectorInterface = TRUE)
+out.brob <- cubature::hcubature(f = f.brob, lowerLimit = 0, upperLimit = 4, vectorInterface = TRUE)
 out.brob
 ```
-
-
-
 
 We may compare the two methods:
 
