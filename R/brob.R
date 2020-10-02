@@ -72,6 +72,7 @@ setMethod("getP","brob",function(x){x@positive})
 setMethod("length","brob",function(x){length(x@x)})
 
 setMethod("is.infinite","brob",function(x){x@x == +Inf})
+setMethod("is.finite"  ,"brob",function(x){x@x != +Inf})
 
 setGeneric("sign<-",function(x,value){standardGeneric("sign<-")})
 setMethod("sign<-","brob",function(x,value){
