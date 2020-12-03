@@ -366,7 +366,7 @@ setGeneric("sum", function(x, ..., na.rm = FALSE)
 ".Brob.prod" <- function(x){
   p <- x@positive
   val <- x@x
-  return(brob(sum(val),(sum(p)%%2)==0))
+  return(brob(sum(val),(sum(!p)%%2)==0))
 }
 
 ".Brob.sum" <- function(x){
