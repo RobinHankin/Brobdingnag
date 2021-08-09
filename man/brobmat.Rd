@@ -9,7 +9,7 @@
 \alias{is.brobmat}
 \alias{print.brobmat}
 \alias{diag}
-\title{Brobdingagian matrices}
+\title{Brobdingnagian matrices}
 \description{
 Basic matrix arithmetic for Brobdingnagian numbers.  Matrix addition,
 multiplication extraction and replacement implemented but not the 
