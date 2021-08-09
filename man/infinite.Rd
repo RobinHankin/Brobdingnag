@@ -6,11 +6,19 @@
 \alias{is.infinite,glub-method}
 \alias{is.infinite,brob-method}
 \alias{is.infinite,glub-method}
+\alias{finite}
+\alias{is.finite}
+\alias{is.finite,brob-method}
+\alias{is.finite,glub-method}
+\alias{is.finite,brob-method}
+\alias{is.finite,glub-method}
 \title{Infinite brobs and glubs}
 \description{Brobdingnagian and Glubbdubdribian infinity}
 \usage{
 \S4method{is.infinite}{brob}(x)
 \S4method{is.infinite}{glub}(x)
+\S4method{is.finite}{brob}(x)
+\S4method{is.finite}{glub}(x)
 }
 \arguments{
   \item{x}{vector of class brob or glub}
@@ -23,6 +31,10 @@ the exponent is infinite.
 
 A Glubbdubdribian number is infinite if either the real or imaginary
 component is infinite.
+
+Function \code{is.finite()} is simply the logical negation of
+\code{is.infinite()}.
+
 }
 
 
