@@ -1,13 +1,5 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-before_install:
-    - tlmgr install collection-latexrecommended
-    - tlmgr install collection-fontsrecommended
-    - tlmgr install letltxmacro
-    - tlmgr install wasysym
-    - tlmgr install yfonts
-    - tlmgr install xypic
-
 language: R
 cache: packages
 branches:
