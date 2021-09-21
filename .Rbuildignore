@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 README.md
 .gitignore
+inst/Brobdingnag_stickermaker.R
+inst/brobmap_7733ff.png
