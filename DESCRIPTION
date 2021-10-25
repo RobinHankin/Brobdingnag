@@ -13,4 +13,4 @@ Description: Very large numbers in R.  Real numbers are held
 Suggests: cubature
 License: GPL
 Repository: CRAN
-URL: https://github.com/RobinHankin/Brobdingnag.git
+URL: https://github.com/RobinHankin/Brobdingnag
