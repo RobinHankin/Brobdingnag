@@ -61,7 +61,7 @@ is beyond floating-point representation:
 ```
 
 We may represent a googol straightforwardly using Brobdingnagian
-arithmetic, specfically by working with `brob` objects.
+arithmetic, specifically by working with `brob` objects.
 
 ``` r
 as.brob(10)
