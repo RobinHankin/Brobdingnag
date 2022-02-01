@@ -181,7 +181,7 @@ Notes:
 Now, an optional step is to define a function that tests whether the
 arguments passed to {\tt new()} are acceptable.  As it stands, the
 following code:
-<<new_flaky_arguments>>=
+<<new_flaky_arguments, eval=FALSE>>=
 new("brob",x=1:10,positive=c(TRUE,FALSE,FALSE))
 @ 
 
