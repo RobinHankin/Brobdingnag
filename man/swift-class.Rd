@@ -3,7 +3,7 @@
 \alias{swift-class}
 
 \title{Class "swift" }
-\description{	A (virtual) class that extends \code{brob} and
+\description{A (virtual) class that extends \code{brob} and
   \code{glub} objects}
 \section{Objects from the Class}{A virtual Class: No objects may be created from it.}
 \section{Methods}{
