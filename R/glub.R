@@ -56,7 +56,7 @@ setMethod("Mod", "glub", function(z){sqrt(Re(z)*Re(z) + Im(z)*Im(z))})
   switch(.Generic,
          Arg  = .Brob.arg(z),
          Conj = glub(Re(z),-Im(z)),
-         stop(paste("Complex operator \"", .Generic, "\" not defined for Glub numbers"))
+         stop(gettextf("Complex operator %s not implemented on glub numbers", dQuote(.Generic)))
          )
 }
 
@@ -155,7 +155,7 @@ setMethod("Math", "glub",
                    gamma  =,
                    ceiling=,
                    floor  = as.glub(callGeneric(as.complex(x))),
-                   stop(paste(.Generic, "not allowed on Brobdingnagian numbers"))
+                   stop(gettextf("function %s not implemented on glub numbers", dQuote(.Generic)))
                      )
           }
 )
@@ -195,7 +195,7 @@ glub(Re(e1)*Re(e2)-Im(e1)*Im(e2), Re(e1)*Im(e2)+Im(e1)*Re(e2))
          "*" = .Glub.mult (e1, e2),
          "/" = .Glub.mult (e1, .Glub.inverse(e2)),
          "^" = .Glub.power(e1, e2),
-         stop(paste("binary operator \"", .Generic, "\" not defined for Glub numbers"))
+         stop(gettextf("binary operator %s not implemented on glub numbers", dQuote(.Generic)))
          )
   }
 
@@ -205,8 +205,7 @@ setMethod("Arith",signature(e1 = "glub", e2="missing"),
             switch(.Generic,
                    "+" = e1,
                    "-" = .Glub.negative(e1),
-                   stop(paste("Unary operator", .Generic,
-                              "not allowed on Brobdingnagian numbers"))
+                   stop(gettextf("unary operator %s not implemented on glub objects", dQuote(.Generic)))
                    )
           }
           )
@@ -233,7 +232,7 @@ setMethod("Arith",signature(e1= "brob", e2="glub"), .Glub.arith)
   switch(.Generic,
          "==" =  .Glub.equal(e1,e2),
          "!=" = !.Glub.equal(e1,e2),
-         stop(paste(.Generic, "not supported for Glub numbers"))
+         stop(gettextf("comparison operator %s not implemented on glub numbers", dQuote(.Generic)))
          )
 }
 
@@ -262,7 +261,7 @@ setMethod("Summary", "glub",
             switch(.Generic,
                    prod   =  .Glub.prod(x),
                    sum    =  .Glub.sum(x),
-                   stop(paste('\"', .Generic, '()\" not allowed on Glubbdubdribbian numbers',sep=""))
+                   stop(gettextf("function %s not implemented on glub numbers", dQuote(.Generic)))
                    )
           }
           )

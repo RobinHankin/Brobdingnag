@@ -1,5 +1,3 @@
-
-
 `.brobmat.valid` <- function(object){
 
     if(length(object@x) != length(object@positive)){
@@ -129,7 +127,7 @@ setMethod("Math", "brobmat",
                    gamma  =,
                    ceiling=,
                    floor  =,
-                   stop(paste(.Generic, "not implemented on brobmats"))
+                   stop(gettextf("Function %s not implemented on brobmat objects", dQuote(.Generic)))
                      )
           } )
 
@@ -138,8 +136,7 @@ setMethod("Arith",signature(e1 = "brobmat", e2="missing"),
             switch(.Generic,
                    "+" = e1,
                    "-" = newbrobmat(getX(e1),positive=!getP(e1)),
-                   stop(paste("Unary operator", .Generic,
-                              "not allowed on brobmats"))
+                   stop(gettextf("unary operator %s not implemented on brobmat objects", dQuote(.Generic)))
                    )
           } )
 
@@ -151,7 +148,7 @@ setMethod("Arith",signature(e1 = "brobmat", e2="missing"),
          "*" = brobmat.mult (e1, e2),
          "/" = brobmat.mult (e1, brobmat.inverse(e2)),
          "^" = brobmat.power(e1, e2),
-         stop(paste("binary operator \"", .Generic, "\" not defined for Brobdingnagian numbers"))
+         stop(gettextf("binary operator %s not implemented on Brobdingnagian numbers", dQuote(.Generic)))
          ) }
 
 setMethod("Arith", signature(e1 = "brobmat", e2="brob"   ), brobmat.arith)
@@ -224,7 +221,7 @@ setMethod("Arith", signature(e1 = "brobmat", e2="brobmat"), brobmat.arith)
          "<"  = !brobmat.greater(e1,e2) & !brobmat.equal(e1,e2),
          ">=" =  brobmat.greater(e1,e2) |  brobmat.equal(e1,e2),
          "<=" = !brobmat.greater(e1,e2) |  brobmat.equal(e1,e2),
-         stop(paste(.Generic, "not supported for brobmats numbers"))
+         stop(gettextf("comparison operator %s not implemented on brobmat objects", dQuote(.Generic)))
          )
 }
 

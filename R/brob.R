@@ -164,7 +164,7 @@ setMethod("Math", "brob",
                    gamma  =,
                    ceiling=,
                    floor  = as.brob(callGeneric(as.numeric(x))),
-                   stop(paste(.Generic, "not allowed on Brobdingnagian numbers"))
+                   stop(gettextf("Function %s not implemented on Brobdingnagian numbers", dQuote(.Generic)))
                      )
           } )
 
@@ -226,8 +226,7 @@ setMethod("Arith",signature(e1 = "brob", e2="missing"),
             switch(.Generic,
                    "+" = e1,
                    "-" = .Brob.negative(e1),
-                   stop(paste("Unary operator", .Generic,
-                              "not allowed on Brobdingnagian numbers"))
+                   stop(gettextf("unary operator %s not implemented on Brobdingnagian numbers", dQuote(.Generic)))
                    )
           } )
 
@@ -238,7 +237,7 @@ setMethod("Arith",signature(e1 = "brob", e2="missing"),
          "*" = .Brob.mult (e1, e2),
          "/" = .Brob.mult (e1, .Brob.inverse(as.brob(e2))),
          "^" = .Brob.power(e1, e2),
-         stop(paste("binary operator \"", .Generic, "\" not defined for Brobdingnagian numbers"))
+         stop(gettextf("binary operator %s not implemented on Brobdingnagian numbers", dQuote(.Generic)))
          ) }
 
 setMethod("Arith", signature(e1 = "brob", e2="ANY"), .Brob.arith)
@@ -277,7 +276,7 @@ setMethod("Arith", signature(e1 = "brob", e2="brob"), .Brob.arith)
          "<"  = !.Brob.greater(e1,e2) & !.Brob.equal(e1,e2),
          ">=" =  .Brob.greater(e1,e2) |  .Brob.equal(e1,e2),
          "<=" = !.Brob.greater(e1,e2) |  .Brob.equal(e1,e2),
-         stop(paste(.Generic, "not supported for Brobdingnagian numbers"))
+         stop(gettextf("comparison operator %s not implemented on Brobdingnagian numbers", dQuote(.Generic)))
          )
 }
 
@@ -391,7 +390,7 @@ setMethod("Summary", "brob",
                    range  =   cbrob(min(x,na.rm=na.rm),max(x,na.rm=na.rm)),
                    prod   =  .Brob.prod(x),
                    sum    =  .Brob.sum(x),
-                   stop(paste(.Generic, "not allowed on Brobdingnagian numbers"))
+                   stop(gettextf("Function %s not implemented on Brobdingnagian numbers", dQuote(.Generic)))
                    )
           }
           )
