@@ -7,3 +7,4 @@ S3method("print","brob")
 S3method("print","glub")
 S3method("print","brobmat")
 
+importClassesFrom(Matrix,index)
