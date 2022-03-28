@@ -34,6 +34,7 @@
 \alias{diag,ANY-method}
 \alias{dimnames,brobmat-method}
 \alias{dimnames<-,brobmat-method}
+\alias{dimnames<-,brobmat,ANY-method}
 \alias{getP,brobmat-method}
 \alias{getP,ANY-method}
 \alias{getP,numeric-method}
