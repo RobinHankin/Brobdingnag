@@ -11,11 +11,26 @@
 \alias{[,glub,ANY,ANY-method}
 \alias{[<-,brob,ANY,ANY-method}
 \alias{[<-,glub,ANY,ANY-method}
+\alias{[,brob,ANY,ANY,ANY-method}
+\alias{[,brobmat,ANY,ANY,ANY-method}
+\alias{[,brobmat,index,index,ANY-method}
+\alias{[,brobmat,index,missing,ANY-method}
+\alias{[,brobmat,matrix,missing,ANY-method}
+\alias{[,brobmat,missing,index,ANY-method}
+\alias{[,brobmat,missing,missing,ANY-method}
+\alias{[,glub,ANY,ANY,ANY-method}
+\alias{[<-,brob,ANY,ANY,ANY-method}
+\alias{[<-,brobmat,index,index,ANY-method}
+\alias{[<-,brobmat,index,missing,ANY-method}
+\alias{[<-,brobmat,matrix,missing,ANY-method}
+\alias{[<-,brobmat,missing,index,ANY-method}
+\alias{[<-,brobmat,missing,missing,ANY-method}
+\alias{[<-,glub,ANY,ANY,ANY-method}
 \title{Extract or Replace Parts of brobs or glubs}
 \description{
    Methods for \code{"["} and  \code{"[<-"}, i.e., extraction or
    subsetting of brobs and glubs.
-}
+ }
 \arguments{
   \item{x}{Object of class brob or glub}
   \item{i}{elements to extract or replace}
