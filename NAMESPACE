@@ -1,7 +1,14 @@
 exportPattern("^[^\\.]")
+export("sum")
 import("methods")
 
 importFrom("graphics", "plot.default")
+
+export("sum")
+export("prod")
+export("range")
+export("min")
+export("max")
 
 S3method("print","brob")
 S3method("print","glub")
