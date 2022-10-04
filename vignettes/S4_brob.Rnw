@@ -711,7 +711,7 @@ returns the negative of a brob.  These functions are not for the user.
 .Brob.negative <- function(e1){
   brob(e1@x,!e1@positive)
 }
-.Brob.ds <- function(e1,e2){   # "ds" == "different signs"
+.Brob.ds <- function(e1,e2){
   xor(e1@positive,e2@positive)
 }
 
@@ -730,12 +730,11 @@ returns the negative of a brob.  These functions are not for the user.
   out.pos <- p1
   
   ds <- .Brob.ds(e1,e2)
-  ss <- !ds                             #ss == "Same Sign"
+  ss <- !ds 
 
   out.x[ss] <- pmax(x1[ss],x2[ss]) + log1p(+exp(-abs(x1[ss]-x2[ss])))
   out.x[ds] <- pmax(x1[ds],x2[ds]) + log1p(-exp(-abs(x1[ds]-x2[ds])))
 
-  # Now special dispensation for 0+0:
   out.x[ (x1 == -Inf) & (x2 == -Inf)] <- -Inf
   out.pos <- p1
   out.pos[ds] <- xor((x1[ds] > x2[ds]) , (!p1[ds]) )
@@ -750,10 +749,10 @@ returns the negative of a brob.  These functions are not for the user.
 
 .Brob.power <- function(e1,e2){
   stopifnot(is.brob(e1) | is.brob(e2))
-  if(is.brob(e2)){ # e2 a brob => answer a brob (ignore signs)
+  if(is.brob(e2)){ 
     return(brob(log(e1) * brob(e2@x), TRUE))
-  } else {  #e2 a non-brob (try to account for signs)
-    s <- as.integer(2*e1@positive-1) #s = +/-1
+  } else { 
+    s <- as.integer(2*e1@positive-1) 
     return(brob(e1@x*as.brob(e2),  (s^as.numeric(e2))>0))
   }
 }
@@ -843,7 +842,7 @@ user-unfriendly helper functions:
   jj.p <- rbind(e1@positive,e2@positive)
 
   ds <- .Brob.ds(e1,e2)
-  ss <- !ds                             #ss == "Same Sign"
+  ss <- !ds 
   greater <- logical(length(ss))
   
   greater[ds] <- jj.p[1,ds]
@@ -1020,7 +1019,6 @@ Now we need some more user-unfriendly helper functions:
   if(any(p)){
     return(brob(max(val[p])))
   } else {
-    # all negative
     return(brob(min(val),FALSE))
   }
 }
