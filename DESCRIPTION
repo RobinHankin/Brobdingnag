@@ -4,7 +4,7 @@ Title: Very Large Numbers in R
 Version: 1.2-8
 Authors@R: person(given=c("Robin", "K. S."), family="Hankin", role = c("aut","cre"), email="hankin.robin@gmail.com", comment = c(ORCID = "0000-0001-5982-0415"))
 Maintainer: Robin K. S. Hankin <hankin.robin@gmail.com>
-Depends: R (>= 2.13.0), methods, Matrix
+Depends: R (>= 2.13.0), methods, Matrix (>= 1.5-0)
 Description: Very large numbers in R.  Real numbers are held
         using their natural logarithms, plus a logical flag indicating
         sign.  Functionality for complex numbers is also provided.  The
