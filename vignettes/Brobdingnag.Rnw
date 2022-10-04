@@ -7,7 +7,7 @@
 \usepackage{wrapfig}
 
 \author{Robin K. S. Hankin\\Auckland University of Technology}
-\title{Very large numbers in \proglang{R}: Introducing package \pkg{Brobdingnag}}
+\title{Very large numbers in \proglang{R}: introducing package \pkg{Brobdingnag}}
 %\VignetteIndexEntry{The Brobdingnag: package}
 
 \Plainauthor{Robin K. S. Hankin}
@@ -148,10 +148,7 @@ f(as.brob(1e100))
 
 Here, the brobs' accuracy is about two orders of magnitude worse than
 double precision arithmetic: this would be expected, as the number of
-bits required to specify the exponent goes as $\log\log x$.
-
-Compare
-
+bits required to specify the exponent goes as $\log\log x$.  Compare
 
 <<try_f_with_bignumbers,echo=T>>=
 f(as.brob(10)^1000)
