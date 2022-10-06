@@ -15,3 +15,7 @@ S3method("print","glub")
 S3method("print","brobmat")
 
 importClassesFrom(Matrix,index)
+export("sum")
+export("prod")
+export("max")
+export("min")
