@@ -29,7 +29,7 @@
 
 \Address{
   Robin K. S. Hankin\\
-  Auckland University of Technology
+  Auckland University of Technology\\
   E-mail: \email{hankin.robin@gmail.com}
 }
 
@@ -52,19 +52,21 @@
 The largest floating point number representable in standard double
 precision arithmetic is a little under~$2^{1024}$, or
 about~$1.79\times 10^{308}$.  This is too small for some applications.
-The \proglang{R} package \pkg{Brobdingnag}~\citep{swift1726} overcomes this limit
-by representing a real number~$x$ using a double precision variable
-with value~$\log\left|x\right|$, and a logical corresponding to~$x\geq
-0$; the \proglang{S4} class of such objects is \code{brob}.  Complex numbers with
-large absolute values (class \code{glub}) may be represented using a
-pair of \code{brob}s to represent the real and imaginary components.
+The \proglang{R} package \pkg{Brobdingnag}~\citep{swift1726} overcomes
+this limit by representing a real number~$x$ using a double precision
+variable with value~$\log\left|x\right|$, and a logical corresponding
+to~$x\geq 0$; the \proglang{S4} class of such objects is \code{brob}.
+Complex numbers with large absolute values (class \code{glub}) may be
+represented using a pair of \code{brob}s to represent the real and
+imaginary components.
 
 The package allows user-transparent access to the large numbers
 allowed by Brobdingnagian arithmetic.  The package also includes a
-vignette---\code{brob}---which documents the \proglang{S4} methods used and
-includes a step-by-step tutorial.  The vignette also functions as a
-``Hello, World!'' example of \proglang{S4} methods as used in a simple package.
-It also includes a full description of the \code{glub} class.
+vignette---\code{S4_brob}---which documents the \proglang{S4} methods
+used and includes a step-by-step tutorial.  The vignette also
+functions as a ``Hello, World!'' example of \proglang{S4} methods as
+used in a simple package.  It also includes a full description of the
+\code{glub} class.
 
 \section[Package ``Brobdingnag'' in use]{Package \pkg{Brobdingnag} in use}
 
