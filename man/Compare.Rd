@@ -11,7 +11,7 @@
 \alias{Compare,glub,brob-method}
 \title{Methods for Function Compare in Package Brobdingnag}
 \description{
-  Methods for comparision (greater than, etc) in package Brobdingnag
+  Methods for comparison (greater than, etc) in package Brobdingnag
 }
 \note{
   As for \code{min()} and \code{max()}, comparison is not entirely
