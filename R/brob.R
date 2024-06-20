@@ -2,11 +2,17 @@
 ".Brob.valid" <- function(object){
   len <- length(object@positive)
   if(len != length(object@x)){
-    return("length mismatch")
-  } else {
-    return(TRUE)
+      return("length mismatch")
   }
+  if(!is.logical(object@positive)){
+      return("slot 'positive' must be logical'")
+  }
+  if(any(is.na(object@positive))){
+      return("slot 'positive' cannot have NA entries")
+  }
+  return(TRUE)
 }
+
 setValidity("brob", .Brob.valid)
 
 
