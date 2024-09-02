@@ -8,6 +8,7 @@ Very large numbers in R: the Brobdingnag package
 <!-- badges: start -->
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/Brobdingnag?color=green)](https://cran.r-project.org/package=Brobdingnag)
+[![R-CMD-check](https://github.com/RobinHankin/Brobdingnag/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/RobinHankin/Brobdingnag/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # Overview
