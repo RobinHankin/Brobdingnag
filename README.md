@@ -3,7 +3,7 @@ Very large numbers in R: the Brobdingnag package
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src="man/figures/brobdingnag.png" width = "150" align="right" />
+# <img src="man/figures/Brobdingnag.png" width = "150" align="right" />
 
 <!-- badges: start --
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/Brobdingnag?color=green)](https://cran.r-project.org/package=Brobdingnag)
@@ -14,7 +14,7 @@ Very large numbers in R: the Brobdingnag package
 The Brobdingnag package provides R-centric functionality for working
 with very large numbers. It represents a number
 ![x](https://latex.codecogs.com/png.latex?x "x") as its logarithm
-![\\log\\left\|x\\right\|](https://latex.codecogs.com/png.latex?%5Clog%5Cleft%7Cx%5Cright%7C "\log\left|x\right|")
+![\log\left\|x\right\|](https://latex.codecogs.com/png.latex?%5Clog%5Cleft%7Cx%5Cright%7C "\log\left|x\right|")
 together with a logical that indicates whether
 ![x](https://latex.codecogs.com/png.latex?x "x") is positive. The
 vignette functions as a “hello world” for S4 methods.
@@ -30,11 +30,15 @@ You can install the released version of Brobdingnag from
 ``` r
 # install.packages("Brobdingnag")  # uncomment this to use the package
 library("Brobdingnag")
+#> Loading required package: Matrix
 #> 
 #> Attaching package: 'Brobdingnag'
+#> The following objects are masked from 'package:Matrix':
+#> 
+#>     diag, t
 #> The following objects are masked from 'package:base':
 #> 
-#>     diag, max, min, prod, range, sum, t
+#>     diag, t
 ```
 
 The package is maintained on
@@ -103,9 +107,10 @@ gplex - gplex/10
 ```
 
 The last line looks odd \[the return value is package idiom for zero\]
-but symbolically we have
-![10^{10^{100}}/10=10^{10^{100}-1}\\simeq 10^{10^{100}}](https://latex.codecogs.com/png.latex?10%5E%7B10%5E%7B100%7D%7D%2F10%3D10%5E%7B10%5E%7B100%7D-1%7D%5Csimeq%2010%5E%7B10%5E%7B100%7D%7D "10^{10^{100}}/10=10^{10^{100}-1}\simeq 10^{10^{100}}").
-The package is vectorised and allows Brobdingnagian arithmetic:
+but symbolically we have ![10^{10^{100}}/10=10^{10^{100}-1}\simeq
+10^{10^{100}}](https://latex.codecogs.com/png.latex?10%5E%7B10%5E%7B100%7D%7D%2F10%3D10%5E%7B10%5E%7B100%7D-1%7D%5Csimeq%0A10%5E%7B10%5E%7B100%7D%7D "10^{10^{100}}/10=10^{10^{100}-1}\simeq
+10^{10^{100}}"). The package is vectorised and allows Brobdingnagian
+arithmetic:
 
 ``` r
 googol/(1:20)
@@ -126,13 +131,13 @@ as.brob(5) - 1:10
 
 It is a semi-nonobvious fact that, in addition to large numbers (that
 is,
-![x\\colon\\left\|x\\right\|\\gg 1](https://latex.codecogs.com/png.latex?x%5Ccolon%5Cleft%7Cx%5Cright%7C%5Cgg%201 "x\colon\left|x\right|\gg 1")
+![x\colon\left\|x\right\|\gg 1](https://latex.codecogs.com/png.latex?x%5Ccolon%5Cleft%7Cx%5Cright%7C%5Cgg%201 "x\colon\left|x\right|\gg 1")
 and small numbers
-(![x\\colon\\left\|x\\right\|\\ll 1](https://latex.codecogs.com/png.latex?x%5Ccolon%5Cleft%7Cx%5Cright%7C%5Cll%201 "x\colon\left|x\right|\ll 1")),
+(![x\colon\left\|x\right\|\ll 1](https://latex.codecogs.com/png.latex?x%5Ccolon%5Cleft%7Cx%5Cright%7C%5Cll%201 "x\colon\left|x\right|\ll 1")),
 the package can deal with numbers very close to 1 (that is,
-![x\\colon\\left\|x-1\\right\|\\ll 1](https://latex.codecogs.com/png.latex?x%5Ccolon%5Cleft%7Cx-1%5Cright%7C%5Cll%201 "x\colon\left|x-1\right|\ll 1")).
+![x\colon\left\|x-1\right\|\ll 1](https://latex.codecogs.com/png.latex?x%5Ccolon%5Cleft%7Cx-1%5Cright%7C%5Cll%201 "x\colon\left|x-1\right|\ll 1")).
 Suppose we wish to deal with
-![e^{10^{-100}}\\simeq 1+10^{-100}](https://latex.codecogs.com/png.latex?e%5E%7B10%5E%7B-100%7D%7D%5Csimeq%201%2B10%5E%7B-100%7D "e^{10^{-100}}\simeq 1+10^{-100}").
+![e^{10^{-100}}\simeq 1+10^{-100}](https://latex.codecogs.com/png.latex?e%5E%7B10%5E%7B-100%7D%7D%5Csimeq%201%2B10%5E%7B-100%7D "e^{10^{-100}}\simeq 1+10^{-100}").
 In the package:
 
 ``` r
@@ -144,7 +149,7 @@ a^googol
 ```
 
 The last line being numerical verification of the fact that
-![\\left(1+10^{-100}\\right)^{10^{100}}\\simeq e=2.718+](https://latex.codecogs.com/png.latex?%5Cleft%281%2B10%5E%7B-100%7D%5Cright%29%5E%7B10%5E%7B100%7D%7D%5Csimeq%20e%3D2.718%2B "\left(1+10^{-100}\right)^{10^{100}}\simeq e=2.718+").
+![\left(1+10^{-100}\right)^{10^{100}}\simeq e=2.718+](https://latex.codecogs.com/png.latex?%5Cleft%281%2B10%5E%7B-100%7D%5Cright%29%5E%7B10%5E%7B100%7D%7D%5Csimeq%20e%3D2.718%2B "\left(1+10^{-100}\right)^{10^{100}}\simeq e=2.718+").
 The package also includes some functionality for Brobdingnagian
 matrices:
 

@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-<img src="man/figures/brobdingnag.png" width = "150" align="right" />
+# <img src="man/figures/Brobdingnag.png" width = "150" align="right" />
 
 
 <!-- badges: start --
