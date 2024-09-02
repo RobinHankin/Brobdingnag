@@ -5,7 +5,8 @@ Very large numbers in R: the Brobdingnag package
 
 # <img src="man/figures/Brobdingnag.png" width = "150" align="right" />
 
-<!-- badges: start --
+<!-- badges: start -->
+
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/Brobdingnag?color=green)](https://cran.r-project.org/package=Brobdingnag)
 <!-- badges: end -->
 
