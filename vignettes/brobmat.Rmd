@@ -1,7 +1,8 @@
 ---
 title: "Brobdingnagian matrices"
 author: "Robin K. S. Hankin"
-date: "`r Sys.Date()`"
+output: html_vignette
+bibliography: brob.bib
 vignette: >
   %\VignetteIndexEntry{brobmat}
   %\VignetteEngine{knitr::rmarkdown}
@@ -13,19 +14,24 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 
 options(width = 80, tibble.width = Inf)
 ```
 
-# Brobdgingnagian matrices
+```{r out.width='20%', out.extra='style="float:right; padding:10px"',echo=FALSE}
+knitr::include_graphics(system.file("help/figures/Brobdingnag.png", package = "Brobdingnag"))
+```
 
-R package `Brobdingnag` has basic functionality for matrices.  It
-includes matrix multiplication and addition, but determinants and
-matrix inverses are not implemented.  First load the package:
+To cite the Brobdingnag package in publications, please use
+@hankin2007.  R package `Brobdingnag` has basic functionality for
+matrices.  It includes matrix multiplication and addition, but
+determinants and matrix inverses are not implemented.  First load the
+package:
 
 ```{r}
 library("Brobdingnag")
 ```
 
-The standard way to create a Brobdgingnagian matrix (a `brobmat`) is
-to use function `brobmat()` which takes arguments similar to
-`matrix()` and returns a matrix of entries created with `brob()`:
+The standard way to create a Brobdgingnagian matrix (a
+`brobmat`) is to use function `brobmat()` which takes arguments
+similar to `matrix()` and returns a matrix of entries created with
+`brob()`:
 
 ```{r}
 M1 <- brobmat(-10:13,4,6)
@@ -33,7 +39,10 @@ colnames(M1) <- state.abb[1:6]
 M1
 ```
 
-Function `brobmat()` takes an argument `positive` which specifies the sign:
+Above, note that all entries of `M1` are greater than zero; `M1[1,1]`,
+for example, is `exp(-10)`, or $e^{-10}\simeq 4.54\times 10^{-5}$.
+For negative matrix entries, function `brobmat()` takes a Boolean
+argument `positive` that specifies the sign:
 
 ```{r}
 M2 <- brobmat(
@@ -76,15 +85,14 @@ M3[1:3,1:3]
 ```
 
 Now calculate the matrix product by coercing to numeric matrices and
-multiplying:q
-
+using base R matrix multiplication:
 
 ```{r}
 p1 <- as.matrix(M3) %*% as.matrix(M4)
 ```
 
-and then by using Brobdingnagian matrix multiplying, and then coercing
-to numeric:
+Secondly, we use Brobdingnagian matrix multiplication, and then
+coercing to numeric:
 
 ```{r}
 p2 <- as.matrix(M3 %*% M4)
@@ -104,6 +112,8 @@ q2 <- as.brobmat(as.matrix(M3) %*% as.matrix(M4))
 max(abs(as.brob(q1-q2)))
 ```
 
+Above we see that the difference of `exp(-30.267)` (about $7\times
+10^{-14}$), is small.
 
 ## Numerical verification: integration with the `cubature` package
 
@@ -149,3 +159,5 @@ We may compare the two methods:
 ```{r,label=comparebrobandnumeric}
 out.brob$integral - out.num$integral
 ```
+
+### References {-}
