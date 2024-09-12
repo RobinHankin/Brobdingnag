@@ -21,7 +21,7 @@
   
   The other vignette shows how to use the package for solving problems
   involving very large numbers; it is based
-  on~\cite{Rnews:Hankin:2007}.
+  on~\cite{hankin2007_brob}.
 }
   
 \Keywords{\proglang{S4} methods, Brobdingnag, \proglang{R}}
@@ -58,7 +58,7 @@ a bunch of basic utilities for manipulating them.  This document
 focuses on the \proglang{S4} aspects of the package.  For an overview
 of the mathematical properties of Brobdingnagian numbers, their
 potential and their limitations, see the {\tt .Rd} files
-and~\cite{Rnews:Hankin:2007}.  If you like this vignette and package,
+and~\cite{hankin2007_brob}.  If you like this vignette and package,
 and find it useful, let me know.  If there is anything wrong with it,
 let me know.
 

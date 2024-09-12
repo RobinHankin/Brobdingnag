@@ -18,7 +18,7 @@
 \Abstract{
 
   This vignette shows how to use the \pkg{Brobdingnag} package to
-  manipulate very large numbers; it is based on~\cite{Rnews:Hankin:2007}.
+  manipulate very large numbers; it is based on~\cite{hankin2007_brob}.
   
   The other vignette shows how to use \proglang{S4} methods in the
   context of a simple package.
