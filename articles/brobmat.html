@@ -59,7 +59,6 @@
                         <h4 data-toc-skip class="author">Robin K. S.
 Hankin</h4>
             
-            <h4 data-toc-skip class="date">2024-09-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/RobinHankin/Brobdingnag/blob/master/vignettes/brobmat.Rmd" class="external-link"><code>vignettes/brobmat.Rmd</code></a></small>
       <div class="d-none name"><code>brobmat.Rmd</code></div>
@@ -67,13 +66,11 @@ Hankin</h4>
 
     
     
-<div class="section level2">
-<h2 id="brobdgingnagian-matrices">Brobdgingnagian matrices<a class="anchor" aria-label="anchor" href="#brobdgingnagian-matrices"></a>
-</h2>
-<p>R package <code>Brobdingnag</code> has basic functionality for
-matrices. It includes matrix multiplication and addition, but
-determinants and matrix inverses are not implemented. First load the
-package:</p>
+<p><img src="../../../_temp/Library/Brobdingnag/help/figures/Brobdingnag.png" width="20%" style="float:right; padding:10px"></p>
+<p>To cite the Brobdingnag package in publications, please use <span class="citation">Hankin (2007)</span>. R package
+<code>Brobdingnag</code> has basic functionality for matrices. It
+includes matrix multiplication and addition, but determinants and matrix
+inverses are not implemented. First load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/RobinHankin/Brobdingnag" class="external-link">"Brobdingnag"</a></span><span class="op">)</span></span></code></pre></div>
 <p>The standard way to create a Brobdgingnagian matrix (a
@@ -89,8 +86,11 @@ entries created with <code><a href="../reference/brob.html">brob()</a></code>:</
 <span><span class="co">#&gt; [2,] +exp(-9)  +exp(-5) +exp(-1) +exp(3) +exp(7) +exp(11)</span></span>
 <span><span class="co">#&gt; [3,] +exp(-8)  +exp(-4) +exp(0)  +exp(4) +exp(8) +exp(12)</span></span>
 <span><span class="co">#&gt; [4,] +exp(-7)  +exp(-3) +exp(1)  +exp(5) +exp(9) +exp(13)</span></span></code></pre></div>
-<p>Function <code><a href="../reference/brobmat.html">brobmat()</a></code> takes an argument
-<code>positive</code> which specifies the sign:</p>
+<p>Above, note that all entries of <code>M1</code> are greater than
+zero; <code>M1[1,1]</code>, for example, is <code>exp(-10)</code>, or
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>e</mi><mrow><mo>−</mo><mn>10</mn></mrow></msup><mo>≃</mo><mn>4.54</mn><mo>×</mo><msup><mn>10</mn><mrow><mo>−</mo><mn>5</mn></mrow></msup></mrow><annotation encoding="application/x-tex">e^{-10}\simeq 4.54\times 10^{-5}</annotation></semantics></math>.
+For negative matrix entries, function <code><a href="../reference/brobmat.html">brobmat()</a></code> takes a
+Boolean argument <code>positive</code> that specifies the sign:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">M2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/brobmat.html">brobmat</a></span><span class="op">(</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">104</span>,<span class="op">-</span><span class="fl">66</span>,<span class="fl">45</span>,<span class="fl">1e40</span>,<span class="op">-</span><span class="fl">2e40</span>,<span class="fl">1e-200</span>,<span class="fl">232.2</span><span class="op">)</span>,<span class="fl">2</span>,<span class="fl">4</span>,</span>
@@ -122,9 +122,9 @@ entries created with <code><a href="../reference/brob.html">brob()</a></code>:</
 <span><span class="co">#&gt;   AL          AK          AZ          AR          CA          CO         </span></span>
 <span><span class="co">#&gt; a +exp(1e+40) +exp(1e+40) +exp(1e+40) +exp(1e+40) +exp(1e+40) +exp(1e+40)</span></span>
 <span><span class="co">#&gt; b +exp(225.2) +exp(229.2) +exp(233.2) +exp(237.2) +exp(241.2) +exp(245.2)</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="numerical-verification-matrix-multiplication">Numerical verification: matrix multiplication<a class="anchor" aria-label="anchor" href="#numerical-verification-matrix-multiplication"></a>
-</h3>
+<div class="section level2">
+<h2 id="numerical-verification-matrix-multiplication">Numerical verification: matrix multiplication<a class="anchor" aria-label="anchor" href="#numerical-verification-matrix-multiplication"></a>
+</h2>
 <p>We will verify matrix multiplication by carrying out the same
 operation in two different ways. First, create two largish
 Brobdingnagian matrices:</p>
@@ -139,10 +139,10 @@ Brobdingnagian matrices:</p>
 <span><span class="co">#&gt; [2,] -exp(0.25532) +exp(2.065)   -exp(0.73778)</span></span>
 <span><span class="co">#&gt; [3,] -exp(-2.4373) +exp(-1.631)  +exp(1.8885)</span></span></code></pre></div>
 <p>Now calculate the matrix product by coercing to numeric matrices and
-multiplying:q</p>
+using base R matrix multiplication:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">M3</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">M4</span><span class="op">)</span></span></code></pre></div>
-<p>and then by using Brobdingnagian matrix multiplying, and then
+<p>Secondly, we use Brobdingnagian matrix multiplication, and then
 coercing to numeric:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">M3</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">M4</span><span class="op">)</span></span></code></pre></div>
@@ -153,14 +153,17 @@ coercing to numeric:</p>
 <p>is small. Now the other way:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q1</span> <span class="op">&lt;-</span> <span class="va">M3</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">M4</span></span>
-<span><span class="va">q2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Brobdingnag/man/brobmat.html" class="external-link">as.brobmat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">M3</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">M4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">q2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://robinhankin.github.io/Brobdingnag/reference/brobmat.html">as.brobmat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">M3</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">M4</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Summary.html">max</a></span><span class="op">(</span><span class="fu"><a href="../reference/Math.html">abs</a></span><span class="op">(</span><span class="fu"><a href="../reference/brob.html">as.brob</a></span><span class="op">(</span><span class="va">q1</span><span class="op">-</span><span class="va">q2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] +exp(-30.245)</span></span></code></pre></div>
+<p>Above we see that the difference of <code>exp(-30.267)</code> (about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>×</mo><msup><mn>10</mn><mrow><mo>−</mo><mn>14</mn></mrow></msup></mrow><annotation encoding="application/x-tex">7\times
+10^{-14}</annotation></semantics></math>), is small.</p>
 </div>
-<div class="section level3">
-<h3 id="numerical-verification-integration-with-the-cubature-package">Numerical verification: integration with the <code>cubature</code>
+<div class="section level2">
+<h2 id="numerical-verification-integration-with-the-cubature-package">Numerical verification: integration with the <code>cubature</code>
 package<a class="anchor" aria-label="anchor" href="#numerical-verification-integration-with-the-cubature-package"></a>
-</h3>
+</h2>
 <p>The matrix functionality of the <code>Brobdingnag</code> package was
 originally written to leverage the functionality of the
 <code>cubature</code> package. Here I give some numerical verification
@@ -216,6 +219,16 @@ The <code>cubature</code> idiom for this would be</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out.brob</span><span class="op">$</span><span class="va">integral</span> <span class="op">-</span> <span class="va">out.num</span><span class="op">$</span><span class="va">integral</span></span>
 <span><span class="co">#&gt; [1] 8.881784e-16</span></span></code></pre></div>
+<div class="section level3 unnumbered">
+<h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-hankin2007" class="csl-entry">
+Hankin, R. K. S. 2007. <span>“Urn Sampling Without Replacement:
+Enumerative Combinatorics in .”</span> <em>Journal of Statistical
+Software</em> 17 (Code Snippet 1).
+</div>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
