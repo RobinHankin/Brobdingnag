@@ -38,8 +38,12 @@ t(x,...)
 
   Function \code{brobmat()} is like \code{brob()} in that it interprets
   its first argument as the exponent (but creates a matrix); the sign of
-  the entry is given by Boolean argument \code{positive}.  Function
-  \code{as.brobmat()} coerces a numeric matrix to a \code{brobmat}.
+  the entry is given by Boolean argument \code{positive}.  Note that
+  \code{brobmat()} accepts a Brobdingnagian vector as primary argument,
+  and in this case the sign is respected.
+
+  Function \code{as.brobmat()} coerces a numeric matrix to a
+  \code{brobmat}.
 
 }
 \value{
