@@ -6,7 +6,7 @@
 \usepackage{wasysym}
 \usepackage{wrapfig}
 
-\author{Robin K. S. Hankin\\Auckland University of Technology}
+\author{Robin K. S. Hankin}
 \title{Very large numbers in \proglang{R}: introducing package \pkg{Brobdingnag}}
 %\VignetteIndexEntry{The Brobdingnag: package}
 
@@ -29,7 +29,7 @@
 
 \Address{
   Robin K. S. Hankin\\
-  Auckland University of Technology\\
+  University of Stirling\\
   E-mail: \email{hankin.robin@gmail.com}
 }
 
