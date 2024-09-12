@@ -55,9 +55,6 @@ Generally return a \code{brobmat} or \code{brob}.
 (M <- brobmat(-10:19,5,6))
 all(M > 0)  # should be TRUE (sic)
 
-brobmat(
-
-
 as.brobmat(matrix(-10:19,5,6))
 
 }
