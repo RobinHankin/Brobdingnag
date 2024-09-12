@@ -159,9 +159,11 @@ setMethod("Arith", signature(e1 = "brobmat", e2="brobmat"), brobmat.arith)
 
 `getat` <- function(e1,e2=e1){
     if(length(e1)>=length(e2)){
-        return(attributes(getX(e1)))
+        if(is.brobmat(e1)){ e1 <- getX(e1) }
+        return(attributes(e1))
     } else {
-        return(attributes(getX(e2)))
+        if(is.brobmat(e2)){ e2 <- getX(e2) }
+        return(attributes(e2))
     }
 }
 
