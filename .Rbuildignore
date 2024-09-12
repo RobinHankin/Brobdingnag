@@ -9,3 +9,6 @@ vignettes/S4_brob.bbl
 vignettes/S4_brob.blg
 vignettes/jss.bst
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
