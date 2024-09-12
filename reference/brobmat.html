@@ -97,7 +97,32 @@ determinant or matrix inverse.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">(</span><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu">brobmat</span><span class="op">(</span><span class="op">-</span><span class="fl">10</span><span class="op">:</span><span class="fl">19</span>,<span class="fl">5</span>,<span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]      [,2]     [,3]    [,4]    [,5]     [,6]    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] +exp(-10) +exp(-5) +exp(0) +exp(5) +exp(10) +exp(15)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] +exp(-9)  +exp(-4) +exp(1) +exp(6) +exp(11) +exp(16)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] +exp(-8)  +exp(-3) +exp(2) +exp(7) +exp(12) +exp(17)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] +exp(-7)  +exp(-2) +exp(3) +exp(8) +exp(13) +exp(18)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] +exp(-6)  +exp(-1) +exp(4) +exp(9) +exp(14) +exp(19)</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="va">M</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>  <span class="co"># should be TRUE (sic)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://robinhankin.github.io/Brobdingnag/reference/brobmat.html">as.brobmat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span><span class="op">:</span><span class="fl">19</span>,<span class="fl">5</span>,<span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]         [,2]          [,3]          [,4]         [,5]        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -exp(2.3026) -exp(1.6094)  +exp(-Inf)    +exp(1.6094) +exp(2.3026)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -exp(2.1972) -exp(1.3863)  +exp(0)       +exp(1.7918) +exp(2.3979)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -exp(2.0794) -exp(1.0986)  +exp(0.69315) +exp(1.9459) +exp(2.4849)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -exp(1.9459) -exp(0.69315) +exp(1.0986)  +exp(2.0794) +exp(2.5649)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -exp(1.7918) -exp(0)       +exp(1.3863)  +exp(2.1972) +exp(2.6391)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,6]        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] +exp(2.7081)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] +exp(2.7726)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] +exp(2.8332)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] +exp(2.8904)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] +exp(2.9444)</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
