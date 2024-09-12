@@ -10,7 +10,7 @@ Description: Very large numbers in R.  Real numbers are held
         sign.  Functionality for complex numbers is also provided.  The
         package includes a vignette that gives a step-by-step
         introduction to using S4 methods.
-Suggests: cubature, testthat, knitr, markdown, rmarkdown, testthat
+Suggests: cubature, testthat, knitr, markdown, rmarkdown
 VignetteBuilder: knitr
 License: GPL
 Repository: CRAN
