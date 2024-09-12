@@ -33,10 +33,14 @@ t(x,...)
 \details{
   Basic arithmetic for Brobdingnagian matrices.
 
+  To create a Brobdingnagian matrix, use \code{as.brobmat()}; function
+  \code{brobmat()} can be confusing.
+
   Function \code{brobmat()} is like \code{brob()} in that it interprets
-  its first argument as the exponent (but creates a matrix).  Function
-  \code{as.brobmat()} coerces a numeric matrix to a
-  \code{brobmat}.
+  its first argument as the exponent (but creates a matrix); the sign of
+  the entry is given by Boolean argument \code{positive}.  Function
+  \code{as.brobmat()} coerces a numeric matrix to a \code{brobmat}.
+
 }
 \value{
 Generally return a \code{brobmat} or \code{brob}.
@@ -44,7 +48,12 @@ Generally return a \code{brobmat} or \code{brob}.
 \author{Robin K. S. Hankin}
 \examples{
 
-brobmat(-10:19,5,6)
+(M <- brobmat(-10:19,5,6))
+all(M > 0)  # should be TRUE (sic)
+
+brobmat(
+
+
 as.brobmat(matrix(-10:19,5,6))
 
 }
