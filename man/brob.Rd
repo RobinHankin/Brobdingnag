@@ -45,12 +45,13 @@ this would be an \strong{exact} representation.
   Complex numbers are stored as a pair of \code{brob}s: objects of class
   \code{glub}. 
 
-  The package is a simple example of S4 methods.  However, it
+  The package is a simple example of \proglang{S4} methods.  However, it
   \emph{could} be viewed as a cautionary tale: the underlying \R
-  concepts are easy yet the S4 implementation is long and difficult.  I
-  would not recommend using S4 methods for a package as simple as this;
-  S3 methods would have been perfectly adequate.  I would suggest that
-  S4 methods should only be used when S3 methods are \emph{demonstrably}
+  concepts are easy yet the \proglang{S4} implementation is long and
+  difficult.  I would not recommend using \proglang{S4} methods for a
+  package as simple as this; \proglang{S3} methods would have been
+  perfectly adequate.  I would suggest that \proglang{S4} methods should
+  only be used when \proglang{S3} methods are \emph{demonstrably}
   inadequate.
 
   The package has poor handling of \code{NA} and \code{NaN}.  Currently,
