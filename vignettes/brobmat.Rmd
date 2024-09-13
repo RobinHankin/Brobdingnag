@@ -19,12 +19,13 @@ knitr::include_graphics(system.file("help/figures/Brobdingnag.png", package = "B
 ```
 
 To cite the Brobdingnag package in publications, please use
-@hankin2007.  R package `Brobdingnag` has basic functionality for
-matrices.  It includes matrix multiplication and addition, but
-determinants and matrix inverses are not implemented.  First load the
-package:
+@hankin2007_brob.  R package `Brobdingnag` allows for very large
+numbers, and the package now has basic functionality for matrices with
+Brobdingnagian entries: objects of class `brobmat`.  It includes
+matrix multiplication and addition, but determinants and matrix
+inverses are not implemented.  First load the package:
 
-```{r}
+```{r loadpkg}
 library("Brobdingnag")
 ```
 
@@ -33,7 +34,7 @@ The standard way to create a Brobdgingnagian matrix (a
 similar to `matrix()` and returns a matrix of entries created with
 `brob()`:
 
-```{r}
+```{r firstbrobmat}
 M1 <- brobmat(-10:13,4,6)
 colnames(M1) <- state.abb[1:6]
 M1
@@ -44,7 +45,7 @@ for example, is `exp(-10)`, or $e^{-10}\simeq 4.54\times 10^{-5}$.
 For negative matrix entries, function `brobmat()` takes a Boolean
 argument `positive` that specifies the sign:
 
-```{r}
+```{r secondbrobmat}
 M2 <- brobmat(
 c(1,104,-66,45,1e40,-2e40,1e-200,232.2),2,4,
 positive=c(T,F,T,T,T,F,T,T))
@@ -53,7 +54,7 @@ M2
 
 Standard matrix arithmetic is implemented, thus:
 
-```{r}
+```{r standardarith}
 rownames(M2) <- c("a","b")
 colnames(M2) <- month.abb[1:4]
 M2
@@ -65,7 +66,7 @@ M2+1000
 We can also do matrix multiplication, although it is slow:
 
 
-```{r}
+```{r matmult}
 M2 %*% M1
 ```
 
@@ -76,37 +77,37 @@ We will verify matrix multiplication by carrying out the same
 operation in two different ways.  First, create two largish
 Brobdingnagian matrices:
 
-```{r}
+```{r verifymatmult}
 nrows <- 11
 ncols <- 18
-M3 <- brobmat(rnorm(nrows*ncols),nrows,ncols,positive=sample(c(T,F),nrows*ncols,replace=T))
-M4 <- brobmat(rnorm(nrows*ncols),ncols,nrows,positive=sample(c(T,F),nrows*ncols,replace=T))
+M3 <- as.brobmat(matrix(rnorm(nrows*ncols),nrows,ncols))
+M4 <- as.brobmat(matrix(rnorm(nrows*ncols),ncols,nrows))
 M3[1:3,1:3]
 ```
 
 Now calculate the matrix product by coercing to numeric matrices and
 using base R matrix multiplication:
 
-```{r}
+```{r usebaseR}
 p1 <- as.matrix(M3) %*% as.matrix(M4)
 ```
 
 Secondly, we use Brobdingnagian matrix multiplication, and then
 coercing to numeric:
 
-```{r}
+```{r usebrob}
 p2 <- as.matrix(M3 %*% M4)
 ```
 
-The difference:
+The difference
 
-```{r}
+```{r showdiff}
 max(abs(p1-p2))
 ```
 
 is small.  Now the other way:
 
-```{r}
+```{r otherway}
 q1 <- M3 %*% M4
 q2 <- as.brobmat(as.matrix(M3) %*% as.matrix(M4))
 max(abs(as.brob(q1-q2)))
