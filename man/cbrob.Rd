@@ -19,15 +19,15 @@ cbrob(x, ...)
   arguments are coerced to \code{brob}s.
 
   Function \code{cbrob()} operates recursively, calling \code{.cPair()}
-  repeatedly.  Function \code{.cPair()} uses S4 method dispatch to call
-  either \code{.Brob.cpair()} or \code{.Glub.cpair()} according to the
-  classes of the arguments.  }
+  repeatedly.  Function \code{.cPair()} uses \proglang{S4} method
+  dispatch to call either \code{.Brob.cpair()} or \code{.Glub.cpair()}
+  according to the classes of the arguments.  }
 
 \author{Robin K. S. Hankin; original idea due to John Chambers}
 \note{
 
-  As of R-2.4.0, it is apparently not possible to use S4 methods to
-  redefine \code{c()} to coerce to class \code{brob} form and
+  As of R-2.4.0, it is apparently not possible to use \proglang{S4}
+  methods to redefine \code{c()} to coerce to class \code{brob} form and
   concatenate as expected.  This would seem to be a reasonable
   interpretation of \code{c()} from the user's perspective.
 

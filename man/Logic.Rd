@@ -10,7 +10,7 @@ Logical operations on brobs are not supported
 \author{Robin K. S. Hankin}
 \note{
 
-  The S4 group generic \dQuote{Logic} appeared in R-2.4.0-patched.
+  The \proglang{S4} group generic \dQuote{Logic} appeared in R-2.4.0-patched.
 
   Carrying out logical operations in this group will call
   \code{.Brob.logic()}, which reports an error.

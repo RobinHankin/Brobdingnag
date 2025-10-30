@@ -18,7 +18,7 @@
 }
 \details{
   For a \code{brob} object, being \code{NA} is not entirely
-  straightforward.  The S4 method for \code{is.na} is too
+  straightforward.  The \proglang{S4} method for \code{is.na} is too
   \dQuote{strict} for some of the functions considered here.  Consider
   \code{max(a)} where \code{a} includes only positive, fully
   specified, elements, and elements with known negative sign and
