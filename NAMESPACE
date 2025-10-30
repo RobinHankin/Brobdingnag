@@ -1,13 +1,14 @@
 exportPattern("^[^\\.]")
-import("methods")
 
 importFrom("graphics", "plot.default")
+importFrom("methods", "as", "callGeneric", "is", "new")
 
 S3method("print","brob")
 S3method("print","glub")
 S3method("print","brobmat")
 
-importClassesFrom(Matrix,index)
+importClassesFrom("Matrix", "index")
+
 export("max")
 export("min")
 export("prod")
