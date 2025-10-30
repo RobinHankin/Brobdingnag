@@ -1,5 +1,4 @@
 `.brobmat.valid` <- function(object){
-
     if(length(object@x) != length(object@positive)){
         return("length mismatch")
     } else {
@@ -7,7 +6,7 @@
     }
 }
 
-setValidity("brobmat", .Brob.valid)
+setValidity("brobmat", .brobmat.valid)
 
 #' @export
 `newbrobmat` <- function(x,positive){
