@@ -1,8 +1,3 @@
-#' @importFrom graphics plot.default
-#' @importFrom methods as callGeneric is new
-
-#' @importClassesFrom Matrix index
-
 
 ".Brob.valid" <- function(object){
   len <- length(object@positive)
@@ -20,7 +15,7 @@
 
 setValidity("brob", .Brob.valid)
 
-#' @export
+
 "brob" <- function(x=double(),positive){
   if(missing(positive)){
     positive <- rep(TRUE,length(x))
@@ -31,13 +26,9 @@ setValidity("brob", .Brob.valid)
   new("brob",x=as.numeric(x),positive=positive)
 }
 
-#' @export
 "is.brob" <- function(x){is(x,"brob")}
-
-#' @export
 "is.glub" <- function(x){is(x,"glub")}
 
-#' @export
 "as.brob" <- function(x){
   if(is.brob(x)){
     return(x)
@@ -72,7 +63,6 @@ setMethod("as.complex",signature(x="brob"),function(x){as(x,"complex")})
      noquote( paste(c("-","+")[1+x@positive],"exp(",signif(x@x,digits),")",sep=""))
    }
     
-#' @export
 "print.brob" <- function(x, ...){
   jj <- .Brob.print(x, ...)
   print(jj)
@@ -90,7 +80,6 @@ setMethod("length","brob",function(x){length(x@x)})
 setMethod("is.infinite","brob",function(x){x@x == +Inf})
 setMethod("is.finite"  ,"brob",function(x){x@x != +Inf})
 
-#' @export
 setGeneric("sign<-",function(x,value){standardGeneric("sign<-")})
 setMethod("sign<-","brob",function(x,value){
   brob(x@x,value)
@@ -124,7 +113,6 @@ setMethod(".cPair", c("brob", "ANY"),  function(x,y){.Brob.cPair(x,as.brob(y))})
 setMethod(".cPair", c("ANY", "brob"),  function(x,y){.Brob.cPair(as.brob(x),y)})
 setMethod(".cPair", c("ANY", "ANY"),   function(x,y){c(x,y)})
 
-#' @export
 "cbrob" <- function(x, ...) {
    if(nargs()<3)
       .cPair(x,...)
