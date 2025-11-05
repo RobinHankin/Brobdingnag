@@ -359,18 +359,6 @@ setGeneric("prod", function(x, ..., na.rm = FALSE)
 }
 
 
-if(!isGeneric("sum")){
-setGeneric("sum", function(x, ..., na.rm = FALSE)
-	{
-		standardGeneric("sum")
-	},
-	useAsDefault = function(x, ..., na.rm = FALSE)
-	{
-		base::sum(x, ..., na.rm = na.rm)
-	},
-	group = "Summary")
-}
-
 ".Brob.max" <- function(x, ..., na.rm=FALSE){
   p <- x@positive
   val <- x@x
@@ -401,6 +389,7 @@ setGeneric("sum", function(x, ..., na.rm = FALSE)
   return(brob(mv + log1p(sum(exp(val[-which.max(val)]-mv))),TRUE))
 }
 
+#' @export
 setMethod("Summary", "brob",
           function(x, ..., na.rm=FALSE){
             switch(.Generic,
