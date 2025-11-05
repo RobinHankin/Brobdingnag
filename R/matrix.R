@@ -1,4 +1,5 @@
 `.brobmat.valid` <- function(object){
+
     if(length(object@x) != length(object@positive)){
         return("length mismatch")
     } else {
@@ -6,12 +7,14 @@
     }
 }
 
-setValidity("brobmat", .brobmat.valid)
+setValidity("brobmat", .Brob.valid)
 
+#' @export
 `newbrobmat` <- function(x,positive){
     new("brobmat", x=x, positive=c(positive)) # this is the only use of new() here
 }
 
+#' @export
 `brobmat` <- function(..., positive){
     data <- list(...)[[1]]
     if(is.matrix(data)){ 
@@ -29,6 +32,7 @@ setValidity("brobmat", .brobmat.valid)
     return(newbrobmat(M,positive=positive))
 }
 
+#' @export
 `is.brobmat` <- function(x){is(x,"brobmat")}
 
 setMethod("getX","brobmat",function(x){x@x})
@@ -43,6 +47,7 @@ setMethod("getP","brobmat",function(x){
 setMethod("getP","numeric",function(x){x>0})
 setMethod("length","brobmat",function(x){length(getX(x))})
 
+#' @export
 `as.brobmat` <- function(x){
   if(is.brob(x)){
     return(newbrobmat(matrix(getX(x)),matrix(getP(x))))  # n-by-1
@@ -52,8 +57,6 @@ setMethod("length","brobmat",function(x){length(getX(x))})
   }
 }
 
-`is.brobmat` <- function(x){is(x,"brobmat")}   
-
 setAs("brobmat", "matrix", function(from){
   out <- exp(getX(from))
   negs <- !getP(from)
@@ -61,9 +64,11 @@ setAs("brobmat", "matrix", function(from){
   return(out)
 } )
 
+#' @export
 `brobmat_to_brob` <- function(x){ brob(c(getX(x)),c(getP(x))) }
 
 
+#' @export
 setMethod("as.matrix",signature(x="brobmat"),function(x){as(x,"matrix")})
 setGeneric("nrow")
 setGeneric("ncol")
@@ -77,6 +82,7 @@ setMethod("ncol",signature(x="brobmat"),function(x){ncol(getX(x))})
     noquote(out)
 }
 
+#' @export
 `print.brobmat` <- function(x, ...){
   jj <- .brobmat.print(x, ...)
   print(jj)
@@ -156,6 +162,7 @@ setMethod("Arith", signature(e1 = "brobmat", e2="ANY"    ), brobmat.arith)
 setMethod("Arith", signature(e1 = "ANY"    , e2="brobmat"), brobmat.arith)
 setMethod("Arith", signature(e1 = "brobmat", e2="brobmat"), brobmat.arith)
 
+#' @export
 `getat` <- function(e1,e2=e1){
     if(length(e1)>=length(e2)){
         if(is.brobmat(e1)){ e1 <- getX(e1) }
@@ -166,6 +173,7 @@ setMethod("Arith", signature(e1 = "brobmat", e2="brobmat"), brobmat.arith)
     }
 }
 
+#' @export
 `brobmat.add` <- function(e1,e2){
     out <- as.brob(e1) + as.brob(e2)
     jj <- getX(out)
@@ -173,6 +181,7 @@ setMethod("Arith", signature(e1 = "brobmat", e2="brobmat"), brobmat.arith)
     return(newbrobmat(jj,getP(out)))
 }
 
+#' @export
 `brobmat.mult` <- function(e1,e2){
     out <- as.brob(e1) * as.brob(e2)
     jj <- getX(out)
@@ -180,6 +189,7 @@ setMethod("Arith", signature(e1 = "brobmat", e2="brobmat"), brobmat.arith)
     return(newbrobmat(jj,getP(out)))
 }
 
+#' @export
 `brobmat.inverse` <- function(e1){
     if(is.brobmat(e1)){
         out <- 1/as.brob(e1)
@@ -191,6 +201,7 @@ setMethod("Arith", signature(e1 = "brobmat", e2="brobmat"), brobmat.arith)
     }
 }
 
+#' @export
 `brobmat.power` <- function(e1,e2){
     out <- as.brob(e1) ^ as.brob(e2)
     jj <- getX(out)
@@ -198,18 +209,21 @@ setMethod("Arith", signature(e1 = "brobmat", e2="brobmat"), brobmat.arith)
     return(newbrobmat(jj,getP(out)))
 }
 
+#' @export
 "brobmat.equal" <- function(e1,e2){
     out <- as.brob(e1) == as.brob(e2)
     attributes(out) <- getat(e1,e2)
     return(out)
 }
 
+#' @export
 "brobmat.greater" <- function(e1,e2){
     out <- as.brob(e1) > as.brob(e2)
     attributes(out) <- getat(e1,e2)
     return(out)
 }
 
+#' @export
 "brobmat.compare" <- function(e1,e2){
    if( (length(e1) == 0) | (length(e2)==0)) {
        return(logical(0))
@@ -231,6 +245,7 @@ setMethod("Compare", signature(e1="ANY"    , e2="brobmat"), brobmat.compare)
 setMethod("Compare", signature(e1="brobmat", e2="brobmat"), brobmat.compare)
 
 
+#' @export
 `brobmat_matrixprod` <- function(x,y){
     stopifnot(ncol(x)==nrow(y))
     out <- brobmat(NA,nrow(x),ncol(y))
@@ -261,6 +276,7 @@ setMethod("colnames", signature(x="brobmat"), function(x){colnames(getX(x))})
 setGeneric("dimnames")
 setMethod("dimnames", signature(x="brobmat"), function(x){dimnames(getX(x))})
 
+#' @export
 setGeneric("rownames<-")
 setMethod("rownames<-", signature(x="brobmat"),
           function(x,value){
@@ -269,6 +285,7 @@ setMethod("rownames<-", signature(x="brobmat"),
               return(brobmat(jj,getP(x)))
           } )
 
+#' @export
 setGeneric("colnames<-")
 setMethod("colnames<-", signature(x="brobmat"),
           function(x,value){

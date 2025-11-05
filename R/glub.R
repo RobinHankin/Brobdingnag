@@ -24,6 +24,7 @@ setMethod("as.numeric",signature(x="glub"),function(x){as(x,"numeric")})
 setMethod("is.infinite",signature(x="glub"),function(x){is.infinite(Re(x)) | is.infinite(Im(x))})
 setMethod("is.finite",signature(x="glub"),function(x){is.finite(Re(x)) & is.finite(Im(x))})
 
+#' @export
 "glub" <- function(real=double(), imag=double()){
   if(missing(imag)){
     imag <- 0
@@ -62,7 +63,10 @@ setMethod("Mod", "glub", function(z){sqrt(Re(z)*Re(z) + Im(z)*Im(z))})
 
 setMethod("Complex","glub", .Glub.complex)
 
+#' @export
 setGeneric("Re<-",function(z,value){standardGeneric("Re<-")})
+
+#' @export
 setGeneric("Im<-",function(z,value){standardGeneric("Im<-")})
 
 setMethod("Re<-","glub",function(z,value){
@@ -78,6 +82,7 @@ setMethod("Im<-","brob",function(z,value){
   return(glub(real=z, imag=value))
 } )
 
+#' @export
 "as.glub" <- function(x){
   if(is.glub(x)){
     return(x)
@@ -119,6 +124,7 @@ setMethod(".cPair", c("brob", "glub"),  function(x,y).Glub.cPair(as.glub(x),y))
   return(glub(.Brob.cPair(Re(x),Re(y)), .Brob.cPair(Im(x),Im(y))))
 }
 
+#' @export
 "print.glub" <- function(x,...){
   real <- .Brob.print(Re(x),...)
   imag <- .Brob.print(Im(x),...)
