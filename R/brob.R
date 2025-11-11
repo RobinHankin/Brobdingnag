@@ -239,6 +239,7 @@ setMethod("Math", "brob",
 
 ".Brob.inverse" <- function(b){brob(-b@x,b@positive)}
 
+#' @export
 setMethod("Arith",signature(e1 = "brob", e2="missing"),
           function(e1,e2){
             switch(.Generic,
@@ -258,8 +259,13 @@ setMethod("Arith",signature(e1 = "brob", e2="missing"),
          stop(gettextf("binary operator %s not implemented on Brobdingnagian numbers", dQuote(.Generic)))
          ) }
 
+#' @export
 setMethod("Arith", signature(e1 = "brob", e2="ANY"), .Brob.arith)
+
+#' @export
 setMethod("Arith", signature(e1 = "ANY", e2="brob"), .Brob.arith)
+
+#' @export
 setMethod("Arith", signature(e1 = "brob", e2="brob"), .Brob.arith)
 
 
@@ -298,16 +304,27 @@ setMethod("Arith", signature(e1 = "brob", e2="brob"), .Brob.arith)
          )
 }
 
+
+#' @export
 setMethod("Compare", signature(e1="brob", e2="ANY" ), .Brob.compare)
+
+#' @export
 setMethod("Compare", signature(e1="ANY" , e2="brob"), .Brob.compare)
+
+#' @export
 setMethod("Compare", signature(e1="brob", e2="brob"), .Brob.compare)
 
 ".Brob.logic" <- function(e1,e2){
   stop("No logic currently implemented for Brobdingnagian numbers")
 }
 
+#' @export
 setMethod("Logic",signature(e1="swift",e2="ANY"), .Brob.logic)
+
+#' @export
 setMethod("Logic",signature(e1="ANY",e2="swift"), .Brob.logic)
+
+#' @export
 setMethod("Logic",signature(e1="swift",e2="swift"), .Brob.logic)
 
 if(!isGeneric("max")){
