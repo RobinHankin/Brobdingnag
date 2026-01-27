@@ -65,14 +65,16 @@ But a googolplex, $10^{10^{100}}$, is beyond floating-point representation:
 10^(10^100)
 ```
 
-We may represent a googol straightforwardly using Brobdingnagian
-arithmetic, specifically by working with `brob` objects.
+We may represent a googol or indeed a googolplex straightforwardly using
+Brobdingnagian arithmetic, specifically by working with `brob`
+objects.
 
 ```{r}
 as.brob(10)
 googol <- as.brob(10)^100
 googol
-10^googol
+gplex <- 10^googol
+gplex
 ```
 
 In the above, we coerce `10` to Brobdingnagian form (that is, an
@@ -92,7 +94,6 @@ exp(googol)
 Note that precision may be adversely affected for very large numbers:
 
 ```{r}
-gplex <- 10^googol
 gplex
 gplex - gplex/10
 ```

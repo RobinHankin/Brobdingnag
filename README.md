@@ -32,15 +32,6 @@ You can install the released version of Brobdingnag from
 ``` r
 # install.packages("Brobdingnag")  # uncomment this to use the package
 library("Brobdingnag")
-#> Loading required package: Matrix
-#> 
-#> Attaching package: 'Brobdingnag'
-#> The following objects are masked from 'package:Matrix':
-#> 
-#>     diag, t
-#> The following objects are masked from 'package:base':
-#> 
-#>     diag, t
 ```
 
 The package is maintained on
@@ -66,8 +57,8 @@ is beyond floating-point representation:
 #> [1] Inf
 ```
 
-We may represent a googol straightforwardly using Brobdingnagian
-arithmetic, specifically by working with `brob` objects.
+We may represent a googol or indeed a googolplex straightforwardly using
+Brobdingnagian arithmetic, specifically by working with `brob` objects.
 
 ``` r
 as.brob(10)
@@ -75,7 +66,8 @@ as.brob(10)
 googol <- as.brob(10)^100
 googol
 #> [1] +exp(230.26)
-10^googol
+gplex <- 10^googol
+gplex
 #> [1] +exp(2.3026e+100)
 ```
 
@@ -101,7 +93,6 @@ exp(googol)
 Note that precision may be adversely affected for very large numbers:
 
 ``` r
-gplex <- 10^googol
 gplex
 #> [1] +exp(2.3026e+100)
 gplex - gplex/10
