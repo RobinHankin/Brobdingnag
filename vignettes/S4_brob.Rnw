@@ -6,7 +6,7 @@
 \usepackage{wasysym}
 \usepackage{wrapfig}
 
-\author{Robin K. S. Hankin\\Auckland University of Technology}
+\author{Robin K. S. Hankin\\University of Stirling}
 \title{A step-by-step guide to writing a simple package that uses \proglang{S4} methods: a ``hello world'' example}
 %\VignetteIndexEntry{Brobdingnag: a ``hello world'' package using S4 methods}
 
@@ -29,7 +29,7 @@
 
 \Address{
   Robin K. S. Hankin\\
-  Auckland University of Technology\\
+  University of Stirling\\
   E-mail: \email{hankin.robin@gmail.com}
 }
 
