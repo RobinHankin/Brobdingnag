@@ -76,16 +76,7 @@
 <p>You can install the released version of Brobdingnag from <a href="https://CRAN.R-project.org" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("Brobdingnag")  # uncomment this to use the package</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/RobinHankin/Brobdingnag" class="external-link">"Brobdingnag"</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: Matrix</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'Brobdingnag'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:Matrix':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     diag, t</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     diag, t</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/RobinHankin/Brobdingnag" class="external-link">"Brobdingnag"</a></span><span class="op">)</span></span></code></pre></div>
 <p>The package is maintained on <a href="https://github.com/RobinHankin/Brobdingnag" class="external-link">github</a>.</p>
 </div>
 <div class="section level1">
@@ -99,14 +90,15 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fl">10</span><span class="op">^</span><span class="op">(</span><span class="fl">10</span><span class="op">^</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] Inf</span></span></code></pre></div>
-<p>We may represent a googol straightforwardly using Brobdingnagian arithmetic, specifically by working with <code>brob</code> objects.</p>
+<p>We may represent a googol or indeed a googolplex straightforwardly using Brobdingnagian arithmetic, specifically by working with <code>brob</code> objects.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/brob.html">as.brob</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] +exp(2.3026)</span></span>
 <span><span class="va">googol</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/brob.html">as.brob</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">^</span><span class="fl">100</span></span>
 <span><span class="va">googol</span></span>
 <span><span class="co">#&gt; [1] +exp(230.26)</span></span>
-<span><span class="fl">10</span><span class="op">^</span><span class="va">googol</span></span>
+<span><span class="va">gplex</span> <span class="op">&lt;-</span> <span class="fl">10</span><span class="op">^</span><span class="va">googol</span></span>
+<span><span class="va">gplex</span></span>
 <span><span class="co">#&gt; [1] +exp(2.3026e+100)</span></span></code></pre></div>
 <p>In the above, we coerce <code>10</code> to Brobdingnagian form (that is, an object of class <code>brob</code>) using <code><a href="reference/brob.html">as.brob()</a></code>. Most arithmetic methods work transparently with Brobdingnagian numbers:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -124,8 +116,7 @@
 <span><span class="co">#&gt; [1] +exp(1e+100)</span></span></code></pre></div>
 <p>Note that precision may be adversely affected for very large numbers:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gplex</span> <span class="op">&lt;-</span> <span class="fl">10</span><span class="op">^</span><span class="va">googol</span></span>
-<span><span class="va">gplex</span></span>
+<code class="sourceCode R"><span><span class="va">gplex</span></span>
 <span><span class="co">#&gt; [1] +exp(2.3026e+100)</span></span>
 <span><span class="va">gplex</span> <span class="op">-</span> <span class="va">gplex</span><span class="op">/</span><span class="fl">10</span></span>
 <span><span class="co">#&gt; [1] -exp(-Inf)</span></span></code></pre></div>
