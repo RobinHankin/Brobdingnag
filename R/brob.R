@@ -21,21 +21,21 @@
 setValidity("brob", .Brob.valid)
 
 #' @export
-"brob" <- function(x=double(),positive){
+"brob" <- function(x=double(), positive){
   if(missing(positive)){
-    positive <- rep(TRUE,length(x))
+    positive <- rep(TRUE, length(x))
   }
   if(length(positive)==1){
-    positive <- rep(positive,length(x))
+    positive <- rep(positive, length(x))
   }
-  new("brob",x=as.numeric(x),positive=positive)
+  new("brob", x=as.numeric(x), positive=positive)
 }
 
 #' @export
-"is.brob" <- function(x){is(x,"brob")}
+"is.brob" <- function(x){is(x, "brob")}
 
 #' @export
-"is.glub" <- function(x){is(x,"glub")}
+"is.glub" <- function(x){is(x, "glub")}
 
 #' @export
 "as.brob" <- function(x){
@@ -60,13 +60,13 @@ setAs("brob", "numeric", function(from){
   return(out)
 } )
 
-setMethod("as.numeric",signature(x="brob"),function(x){as(x,"numeric")})
+setMethod("as.numeric",signature(x="brob"), function(x){as(x, "numeric")})
 
 setAs("brob", "complex", function(from){
-  return(as.numeric(from)+ 0i)
+  return(as.numeric(from) + 0i)
 } )
 
-setMethod("as.complex",signature(x="brob"),function(x){as(x,"complex")})
+setMethod("as.complex", signature(x="brob"), function(x){as(x,"complex")})
 
 ".Brob.print" <- function(x, digits=5){
      noquote( paste(c("-","+")[1+x@positive],"exp(",signif(x@x,digits),")",sep=""))
@@ -81,19 +81,19 @@ setMethod("as.complex",signature(x="brob"),function(x){as(x,"complex")})
 
 setMethod("show", "brob", function(object){print.brob(object)})
 
-setGeneric("getX",function(x){standardGeneric("getX")})
-setGeneric("getP",function(x){standardGeneric("getP")})
-setMethod("getX","brob",function(x){x@x})
-setMethod("getP","brob",function(x){x@positive})
-setMethod("length","brob",function(x){length(x@x)})
+setGeneric("getX", function(x){standardGeneric("getX")})
+setGeneric("getP", function(x){standardGeneric("getP")})
+setMethod("getX", "brob", function(x){x@x})
+setMethod("getP", "brob", function(x){x@positive})
+setMethod("length", "brob", function(x){length(x@x)})
 
 setMethod("is.infinite","brob",function(x){x@x == +Inf})
 setMethod("is.finite"  ,"brob",function(x){x@x != +Inf})
 
 #' @export
-setGeneric("sign<-",function(x,value){standardGeneric("sign<-")})
-setMethod("sign<-","brob",function(x,value){
-  brob(x@x,value)
+setGeneric("sign<-",function(x, value){standardGeneric("sign<-")})
+setMethod("sign<-", "brob", function(x,value){
+  brob(x@x, value)
 } )
 
 setMethod("[", "brob",
@@ -104,14 +104,14 @@ setMethod("[", "brob",
             brob(x@x[i], x@positive[i])
           } )
 
-setReplaceMethod("[",signature(x="brob"),
-                 function(x,i,j,value){
+setReplaceMethod("[", signature(x="brob"),
+                 function(x, i, j, value){
                    jj.x <- x@x
                    jj.pos <- x@positive
                    if(is.brob(value)){
                      jj.x[i] <- value@x
                      jj.pos[i] <- value@positive
-                     return(brob(x=jj.x,positive=jj.pos))
+                     return(brob(x=jj.x, positive=jj.pos))
                    } else {
                      x[i] <- as.brob(value)
                      return(x)
@@ -127,7 +127,7 @@ setMethod(".cPair", c("ANY", "ANY"),   function(x,y){c(x,y)})
 #' @export
 "cbrob" <- function(x, ...) {
    if(nargs()<3)
-      .cPair(x,...)
+      .cPair(x, ...)
     else
       .cPair(x, Recall(...))
 }
@@ -135,13 +135,13 @@ setMethod(".cPair", c("ANY", "ANY"),   function(x,y){c(x,y)})
 ".Brob.cPair" <- function(x,y){
   x <- as.brob(x)
   y <- as.brob(y)
-  brob(c(x@x,y@x),c(x@positive,y@positive))
+  brob(c(x@x,y@x), c(x@positive,y@positive))
 }
 
 setGeneric("log")
 
-setMethod("sqrt","brob", function(x){
- brob(ifelse(x@positive,x@x/2, NaN),TRUE)
+setMethod("sqrt", "brob", function(x){
+ brob(ifelse(x@positive, x@x/2, NaN), TRUE)
 } )
           
 setMethod("Math", "brob",
@@ -187,38 +187,38 @@ setMethod("Math", "brob",
           } )
 
 ".Brob.negative" <- function(e1){
-  brob(e1@x,!e1@positive)
+  brob(e1@x, !e1@positive)
 }
 
-".Brob.ds" <- function(e1,e2){   # "ds" == "different signs"
-  xor(e1@positive,e2@positive)
+".Brob.ds" <- function(e1, e2){   # "ds" == "different signs"
+  xor(e1@positive, e2@positive)
 }
 
-".Brob.add" <- function(e1,e2){
+".Brob.add" <- function(e1, e2){
   e1 <- as.brob(e1)
   e2 <- as.brob(e2)
   
-  jj <- rbind(e1@x,e2@x)
+  jj <- rbind(e1@x, e2@x)
   x1 <- jj[1,]
   x2 <- jj[2,]
   out.x <- double(length(x1))
   
-  jj <- rbind(e1@positive,e2@positive)
+  jj <- rbind(e1@positive, e2@positive)
   p1 <- jj[1,]
   p2 <- jj[2,]
   out.pos <- p1
   
-  ds <- .Brob.ds(e1,e2)
+  ds <- .Brob.ds(e1, e2)
   ss <- !ds                             #ss == "Same Sign"
 
-  out.x[ss] <- pmax(x1[ss],x2[ss]) + log1p(+exp(-abs(x1[ss]-x2[ss])))
-  out.x[ds] <- pmax(x1[ds],x2[ds]) + log1p(-exp(-abs(x1[ds]-x2[ds])))
+  out.x[ss] <- pmax(x1[ss], x2[ss]) + log1p(+exp(-abs(x1[ss]-x2[ss])))
+  out.x[ds] <- pmax(x1[ds], x2[ds]) + log1p(-exp(-abs(x1[ds]-x2[ds])))
 
   # Now special dispensation for 0+0:
   out.x[ (x1 == -Inf) & (x2 == -Inf)] <- -Inf
   out.pos <- p1
-  out.pos[ds] <- xor((x1[ds] > x2[ds]) , (!p1[ds]) )
-  return(brob(out.x,out.pos))
+  out.pos[ds] <- xor((x1[ds] > x2[ds]), (!p1[ds]) )
+  return(brob(out.x, out.pos))
 }
 
 ".Brob.mult" <- function(e1,e2){
@@ -227,21 +227,21 @@ setMethod("Math", "brob",
   return(brob(e1@x + e2@x, !.Brob.ds(e1,e2)))
 }
 
-".Brob.power"<- function(e1,e2){
+".Brob.power"<- function(e1, e2){
   stopifnot(is.brob(e1) | is.brob(e2))
   if(is.brob(e2)){ # e2 a brob => answer a brob (ignore signs)
     return(brob(log(e1) * brob(e2@x), TRUE))
   } else {  #e2 a non-brob (try to account for signs)
-    s <- as.integer(2*e1@positive-1) #s = +/-1
-    return(brob(e1@x*as.brob(e2),  (s^as.numeric(e2))>0))
+    s <- as.integer(2*e1@positive - 1) #s = +/-1
+    return(brob(e1@x*as.brob(e2), (s^as.numeric(e2))>0))
   }
 }
 
-".Brob.inverse" <- function(b){brob(-b@x,b@positive)}
+".Brob.inverse" <- function(b){brob(-b@x, b@positive)}
 
 #' @export
-setMethod("Arith",signature(e1 = "brob", e2="missing"),
-          function(e1,e2){
+setMethod("Arith", signature(e1 = "brob", e2="missing"),
+          function(e1, e2){
             switch(.Generic,
                    "+" = e1,
                    "-" = .Brob.negative(e1),
@@ -269,15 +269,15 @@ setMethod("Arith", signature(e1 = "ANY", e2="brob"), .Brob.arith)
 setMethod("Arith", signature(e1 = "brob", e2="brob"), .Brob.arith)
 
 
-".Brob.equal" <- function(e1,e2){
+".Brob.equal" <- function(e1, e2){
   (e1@x==e2@x) & (e1@positive==e2@positive)
 }
 
-".Brob.greater" <- function(e1,e2){
-  jj.x <- rbind(e1@x,e2@x)
-  jj.p <- rbind(e1@positive,e2@positive)
+".Brob.greater" <- function(e1, e2){
+  jj.x <- rbind(e1@x, e2@x)
+  jj.p <- rbind(e1@positive, e2@positive)
 
-  ds <- .Brob.ds(e1,e2)
+  ds <- .Brob.ds(e1, e2)
   ss <- !ds                             #ss == "Same Sign"
   greater <- logical(length(ss))
   
@@ -286,20 +286,20 @@ setMethod("Arith", signature(e1 = "brob", e2="brob"), .Brob.arith)
   return(greater)
 }
 
-".Brob.compare" <- function(e1,e2){
-   if( (length(e1) == 0) | (length(e2)==0)) {
+".Brob.compare" <- function(e1, e2){
+   if( (length(e1) == 0) | (length(e2) == 0)) {
        return(logical(0))
    }
 
   e1 <- as.brob(e1)
   e2 <- as.brob(e2)
   switch(.Generic,
-         "==" =  .Brob.equal(e1,e2),
-         "!=" = !.Brob.equal(e1,e2),
-         ">"  =  .Brob.greater(e1,e2),
-         "<"  = !.Brob.greater(e1,e2) & !.Brob.equal(e1,e2),
-         ">=" =  .Brob.greater(e1,e2) |  .Brob.equal(e1,e2),
-         "<=" = !.Brob.greater(e1,e2) |  .Brob.equal(e1,e2),
+         "==" =  .Brob.equal(e1, e2),
+         "!=" = !.Brob.equal(e1, e2),
+         ">"  =  .Brob.greater(e1, e2),
+         "<"  = !.Brob.greater(e1, e2) & !.Brob.equal(e1, e2),
+         ">=" =  .Brob.greater(e1, e2) |  .Brob.equal(e1, e2),
+         "<=" = !.Brob.greater(e1, e2) |  .Brob.equal(e1, e2),
          stop(gettextf("comparison operator %s not implemented on Brobdingnagian numbers", dQuote(.Generic)))
          )
 }
@@ -314,18 +314,18 @@ setMethod("Compare", signature(e1="ANY" , e2="brob"), .Brob.compare)
 #' @export
 setMethod("Compare", signature(e1="brob", e2="brob"), .Brob.compare)
 
-".Brob.logic" <- function(e1,e2){
+".Brob.logic" <- function(e1, e2){
   stop("No logic currently implemented for Brobdingnagian numbers")
 }
 
 #' @export
-setMethod("Logic",signature(e1="swift",e2="ANY"), .Brob.logic)
+setMethod("Logic", signature(e1="swift", e2="ANY"), .Brob.logic)
 
 #' @export
-setMethod("Logic",signature(e1="ANY",e2="swift"), .Brob.logic)
+setMethod("Logic", signature(e1="ANY", e2="swift"), .Brob.logic)
 
 #' @export
-setMethod("Logic",signature(e1="swift",e2="swift"), .Brob.logic)
+setMethod("Logic", signature(e1="swift", e2="swift"), .Brob.logic)
 
 if(!isGeneric("max")){
 setGeneric("max", function(x, ..., na.rm = FALSE)
@@ -383,14 +383,14 @@ setGeneric("prod", function(x, ..., na.rm = FALSE)
     return(brob(max(val[p])))
   } else {
     # all negative
-    return(brob(min(val),FALSE))
+    return(brob(min(val), FALSE))
   }
 }
 
 ".Brob.prod" <- function(x){
   p <- x@positive
   val <- x@x
-  return(brob(sum(val),(sum(!p)%%2)==0))
+  return(brob(sum(val), (sum(!p)%%2)==0))
 }
 
 ".Brob.sum" <- function(x){
@@ -399,7 +399,7 @@ setGeneric("prod", function(x, ..., na.rm = FALSE)
 }
 
 ".Brob.sum.allpositive" <- function(x){
-  if(length(x)<1){return(as.brob(0))}
+  if(length(x) < 1){return(as.brob(0))}
   val <- x@x
   p <- x@positive
   mv <- max(val)
@@ -412,7 +412,7 @@ setMethod("Summary", "brob",
             switch(.Generic,
                    max    =  .Brob.max( x, ..., na.rm=na.rm),
                    min    = -.Brob.max(-x, ..., na.rm=na.rm),
-                   range  =   cbrob(min(x,na.rm=na.rm),max(x,na.rm=na.rm)),
+                   range  =   cbrob(min(x, na.rm=na.rm), max(x, na.rm=na.rm)),
                    prod   =  .Brob.prod(x),
                    sum    =  .Brob.sum(x),
                    stop(gettextf("Function %s not implemented on Brobdingnagian numbers", dQuote(.Generic)))
@@ -421,6 +421,6 @@ setMethod("Summary", "brob",
           )
 
 
-setMethod("plot",signature(x="brob",y="missing"),function(x, ...){plot.default(as.numeric(x), ...)})
-setMethod("plot",signature(x="brob",y="ANY" ),function(x, y, ...){plot.default(as.numeric(x), as.numeric(y), ...)})
-setMethod("plot",signature(x="ANY" ,y="brob"),function(x, y, ...){plot.default(as.numeric(x), as.numeric(y), ...)})
+setMethod("plot", signature(x="brob", y="missing"),function(x, ...){plot.default(as.numeric(x), ...)})
+setMethod("plot", signature(x="brob", y="ANY" ),function(x, y, ...){plot.default(as.numeric(x), as.numeric(y), ...)})
+setMethod("plot", signature(x="ANY" , y="brob"),function(x, y, ...){plot.default(as.numeric(x), as.numeric(y), ...)})
