@@ -1,5 +1,5 @@
 #' @importFrom graphics plot.default
-#' @importFrom methods as callGeneric is new
+#' @importFrom methods as callGeneric is new Arith Compare Logic Summary
 
 #' @importClassesFrom Matrix index
 
