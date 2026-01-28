@@ -77,6 +77,10 @@
   vectors.  It has to compute four Brobdingnagian products and two
   Brobdingnagian sums per element of its argument, and this takes a long
   time.</p>
+<p>S4 generic <code>sum()</code> dispatches on its first argument,
+ and is not perfect.  It will not automatically coerce brobs to glubs,
+ nor numerics to brobs.  To ensure glub-consistency, use
+ <code>sum(as.glub(1i), ...)</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

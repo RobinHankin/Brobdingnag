@@ -21,6 +21,11 @@ exceptional functions return `brob`s.
 For `glub`s: mostly direct transliteration of the appropriate formula;
 one might note that `log(z)` is defined as `glub(log(Mod(x)),Arg(x))`.
 
+Function `sum1()` takes a single argument, interpreted as a vector of
+brobs, and returns its sum (compare
+[`sum()`](https://robinhankin.github.io/Brobdingnag/reference/Summary.md)
+which can take any number of arguments).
+
 ## Author
 
 Robin K. S. Hankin

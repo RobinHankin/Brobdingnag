@@ -104,6 +104,7 @@
   [`ceiling`](https://robinhankin.github.io/Brobdingnag/reference/Math.md)
   [`floor`](https://robinhankin.github.io/Brobdingnag/reference/Math.md)
   [`sqrt`](https://robinhankin.github.io/Brobdingnag/reference/Math.md)
+  [`sum1`](https://robinhankin.github.io/Brobdingnag/reference/Math.md)
   [`sqrt,brob-method`](https://robinhankin.github.io/Brobdingnag/reference/Math.md)
   [`sqrt,glub-method`](https://robinhankin.github.io/Brobdingnag/reference/Math.md)
   [`Math,brob-method`](https://robinhankin.github.io/Brobdingnag/reference/Math.md)

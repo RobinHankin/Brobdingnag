@@ -34,6 +34,10 @@ Function `prod()` is *very* slow for long `glub` vectors. It has to
 compute four Brobdingnagian products and two Brobdingnagian sums per
 element of its argument, and this takes a long time.
 
+S4 generic `sum()` dispatches on its first argument, and is not perfect.
+It will not automatically coerce brobs to glubs, nor numerics to brobs.
+To ensure glub-consistency, use `sum(as.glub(1i), ...)`.
+
 ## See also
 
 [`is.na`](https://rdrr.io/r/base/NA.html)
