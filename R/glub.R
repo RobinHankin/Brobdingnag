@@ -44,6 +44,9 @@ setMethod("is.finite",signature(x="glub"),function(x){is.finite(Re(x)) & is.fini
 setMethod("Re","glub",function(z){z@real})
 setMethod("Im","glub",function(z){z@imag})
 
+setMethod("Re","brob",function(z){z})
+setMethod("Im","brob",function(z){z*0})
+
 setMethod("length","glub",function(x){length(Re(x))})
 
 
