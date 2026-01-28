@@ -401,9 +401,13 @@ setGeneric("prod", function(x, ..., na.rm = FALSE)
 ".Brob.sum.allpositive" <- function(x){
   if(length(x) < 1){return(as.brob(0))}
   val <- x@x
-  p <- x@positive
+  stopifnot(all(x@positive))
   mv <- max(val)
-  return(brob(mv + log1p(sum(exp(val[-which.max(val)]-mv))),TRUE))
+  if(mv > -Inf){
+      return(brob(mv + log1p(sum(exp(val[-which.max(val)]-mv))),TRUE))
+  } else {
+      return(as.brob(0))
+  }
 }
 
 #' @export
