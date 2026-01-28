@@ -25,6 +25,7 @@
 \alias{ceiling}
 \alias{floor}
 \alias{sqrt}
+\alias{sum1}
 \alias{sqrt,brob-method}
 \alias{sqrt,glub-method}
 \alias{Math,brob-method}
@@ -46,6 +47,11 @@ Various elementary functions for brobs
   For \code{glub}s: mostly direct transliteration of the appropriate
   formula; one might note that \code{log(z)} is defined as
   \code{glub(log(Mod(x)),Arg(x))}. 
+
+  Function \code{sum1()} takes a single argument, interpreted as a
+  vector of brobs, and returns its sum (compare \code{sum()} which can
+  take any number of arguments).
+
 }
 \author{Robin K. S. Hankin}  
 \examples{

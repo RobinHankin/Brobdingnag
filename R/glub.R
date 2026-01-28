@@ -47,6 +47,7 @@ setMethod("Im","glub",function(z){z@imag})
 setMethod("Re","brob",function(z){z})
 setMethod("Im","brob",function(z){z*0})
 
+
 setMethod("length","glub",function(x){length(Re(x))})
 
 
@@ -261,15 +262,24 @@ setMethod("Compare", signature(e1="glub", e2="brob"), .Glub.compare)
   return(out)
 }
 
-".Glub.sum" <- function(x){
-  glub(sum(Re(x)),sum(Im(x)))
+".Glub.sum" <- function(x, ...){
+    ## my first thought, but it fails [elements of list(...) not real]:
+    ## glub(sum(Re(x), ...), sum(Im(x), ...))
+
+    if (nargs() == 1) {
+        return(glub(sum1(Re(x)), sum1(Im(x))))
+    } else if(nargs() == 2){
+        return(glub(sum1(Re(x)), sum1(Im(x))) + glub(sum1(Re(...)), sum1(Im(...))))
+    } else {
+        return(glub(sum1(Re(x)), sum1(Im(x))) + Recall(...)) # the meat
+    }
 }
 
 setMethod("Summary", "glub",
           function(x, ..., na.rm=FALSE){
             switch(.Generic,
                    prod   =  .Glub.prod(x),
-                   sum    =  .Glub.sum(x),
+                   sum    =  .Glub.sum(x, ...),
                    stop(gettextf("function %s not implemented on glub numbers", dQuote(.Generic)))
                    )
           }

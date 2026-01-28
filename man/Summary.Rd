@@ -34,6 +34,12 @@
   vectors.  It has to compute four Brobdingnagian products and two
   Brobdingnagian sums per element of its argument, and this takes a long
   time.
+
+ \proglang{S4} generic \code{sum()} dispatches on its first argument,
+ and is not perfect.  It will not automatically coerce brobs to glubs,
+ nor numerics to brobs.  To ensure glub-consistency, use
+ \code{sum(as.glub(1i), ...)}.
+
 }
 \seealso{\code{\link{is.na}}}
 \examples{

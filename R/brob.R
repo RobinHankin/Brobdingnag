@@ -393,11 +393,20 @@ setGeneric("prod", function(x, ..., na.rm = FALSE)
   return(brob(sum(val), (sum(!p)%%2)==0))
 }
 
-".Brob.sum" <- function(x){
+#' @export
+"sum1" <- function(x){
   .Brob.sum.allpositive( x[x>0]) -
   .Brob.sum.allpositive(-x[x<0]) 
 }
 
+".Brob.sum" <- function(x, ...){
+    if (nargs() < 2) {
+        return(sum1(x))
+    } else {
+        return(sum1(x) + as.brob(Recall(...))) # the meat
+    }
+}
+                        
 ".Brob.sum.allpositive" <- function(x){
   if(length(x) < 1){return(as.brob(0))}
   val <- x@x
@@ -418,7 +427,7 @@ setMethod("Summary", "brob",
                    min    = -.Brob.max(-x, ..., na.rm=na.rm),
                    range  =   cbrob(min(x, na.rm=na.rm), max(x, na.rm=na.rm)),
                    prod   =  .Brob.prod(x),
-                   sum    =  .Brob.sum(x),
+                   sum    =  .Brob.sum(x, ...),
                    stop(gettextf("Function %s not implemented on Brobdingnagian numbers", dQuote(.Generic)))
                    )
           }
