@@ -50,7 +50,7 @@
 \alias{show,brobmat-method}
 \alias{t,brobmat-method}
 \alias{t,ANY-method}
-
+\alias{sum,brobmat-method}
 \title{Class \code{"brobmat"}}
 \description{
   The \code{brobmat} class provides basic Brobdingnagian arithmetic for

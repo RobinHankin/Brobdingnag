@@ -311,3 +311,4 @@ setMethod("t", signature(x="brobmat"),function(x,...){brob(t(getX(x)),t(getP(x))
 setMethod("t", signature(x="ANY"),function(x,...){base::t(x)})
 
 
+setMethod("sum", signature(x="brobmat"),function(x, ...){sum(as.vector(x))})
