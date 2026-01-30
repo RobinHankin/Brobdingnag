@@ -13,16 +13,16 @@ setAs("glub", "complex", function(from){
   complex(real=as.numeric(from@real), imaginary=as.numeric(from@imag))
 } )
 
-setMethod("as.complex",signature(x="glub"),function(x){as(x,"complex")})
+setMethod("as.complex", signature(x="glub"), function(x){as(x, "complex")})
 
 setAs("glub", "numeric", function(from){
     warning("imaginary parts discarded in coercion; use as.complex() to retain them")
     as.numeric(Re(from))
 } )
   
-setMethod("as.numeric",signature(x="glub"),function(x){as(x,"numeric")})
-setMethod("is.infinite",signature(x="glub"),function(x){is.infinite(Re(x)) | is.infinite(Im(x))})
-setMethod("is.finite",signature(x="glub"),function(x){is.finite(Re(x)) & is.finite(Im(x))})
+setMethod("as.numeric",  signature(x="glub"), function(x){as(x, "numeric")})
+setMethod("is.infinite", signature(x="glub"), function(x){is.infinite(Re(x)) | is.infinite(Im(x))})
+setMethod("is.finite",   signature(x="glub"), function(x){is.finite(Re(x)) & is.finite(Im(x))})
 
 #' @export
 "glub" <- function(real=double(), imag=double()){
@@ -32,29 +32,26 @@ setMethod("is.finite",signature(x="glub"),function(x){is.finite(Re(x)) & is.fini
   real <- as.brob(real)
   imag <- as.brob(imag)
   
-  jj.x <- cbind(real@x,imag@x)
-  jj.p <- cbind(real@positive,imag@positive)
+  jj.x <- cbind(real@x, imag@x)
+  jj.p <- cbind(real@positive, imag@positive)
   new("glub",
-      real = brob(jj.x[,1],jj.p[,1]),
-      imag = brob(jj.x[,2],jj.p[,2])
+      real = brob(jj.x[,1], jj.p[,1]),
+      imag = brob(jj.x[,2], jj.p[,2])
       )
 }
 
+setMethod("Re", "glub", function(z){z@real})
+setMethod("Im", "glub", function(z){z@imag})
 
-setMethod("Re","glub",function(z){z@real})
-setMethod("Im","glub",function(z){z@imag})
+setMethod("Re", "brob",function(z){z})
+setMethod("Im", "brob",function(z){z*0})
 
-setMethod("Re","brob",function(z){z})
-setMethod("Im","brob",function(z){z*0})
-
-
-setMethod("length","glub",function(x){length(Re(x))})
-
+setMethod("length", "glub", function(x){length(Re(x))})
 
 setMethod("Mod", "glub", function(z){sqrt(Re(z)*Re(z) + Im(z)*Im(z))})
 
 ".Brob.arg" <- function(z){
-  atan2(as.numeric(Im(z)),as.numeric(Re(z)))
+  atan2(as.numeric(Im(z)), as.numeric(Re(z)))
 }
 
 ".Glub.complex" <- function(z){
