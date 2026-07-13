@@ -10,6 +10,7 @@ and addition, but determinants and matrix inverses are not implemented.
 First load the package:
 
 ``` r
+
 library("Brobdingnag")
 ```
 
@@ -22,6 +23,7 @@ entries created with
 [`brob()`](https://robinhankin.github.io/Brobdingnag/reference/brob.md):
 
 ``` r
+
 M1 <- brobmat(-10:13,4,6)
 colnames(M1) <- state.abb[1:6]
 M1
@@ -33,12 +35,13 @@ M1
 ```
 
 Above, note that all entries of `M1` are greater than zero; `M1[1,1]`,
-for example, is `exp(-10)`, or $e^{- 10} \simeq 4.54 \times 10^{- 5}$.
-For negative matrix entries, function
+for example, is `exp(-10)`, or $`e^{-10}\simeq 4.54\times 10^{-5}`$. For
+negative matrix entries, function
 [`brobmat()`](https://robinhankin.github.io/Brobdingnag/reference/brobmat.md)
 takes a Boolean argument `positive` that specifies the sign:
 
 ``` r
+
 M2 <- brobmat(
 c(1,104,-66,45,1e40,-2e40,1e-200,232.2),2,4,
 positive=c(T,F,T,T,T,F,T,T))
@@ -51,6 +54,7 @@ M2
 Standard matrix arithmetic is implemented, thus:
 
 ``` r
+
 rownames(M2) <- c("a","b")
 colnames(M2) <- month.abb[1:4]
 M2
@@ -71,6 +75,7 @@ M2+1000
 We can also do matrix multiplication, although it is slow:
 
 ``` r
+
 M2 %*% M1
 #>   AL          AK          AZ          AR          CA          CO         
 #> a +exp(1e+40) +exp(1e+40) +exp(1e+40) +exp(1e+40) +exp(1e+40) +exp(1e+40)
@@ -84,6 +89,7 @@ in two different ways. First, create two largish Brobdingnagian
 matrices:
 
 ``` r
+
 nrows <- 11
 ncols <- 18
 M3 <- as.brobmat(matrix(rnorm(nrows*ncols),nrows,ncols))
@@ -99,6 +105,7 @@ Now calculate the matrix product by coercing to numeric matrices and
 using base R matrix multiplication:
 
 ``` r
+
 p1 <- as.matrix(M3) %*% as.matrix(M4)
 ```
 
@@ -106,12 +113,14 @@ Secondly, we use Brobdingnagian matrix multiplication, and then coercing
 to numeric:
 
 ``` r
+
 p2 <- as.matrix(M3 %*% M4)
 ```
 
 The difference
 
 ``` r
+
 max(abs(p1-p2))
 #> [1] 5.329071e-15
 ```
@@ -119,14 +128,15 @@ max(abs(p1-p2))
 is small. Now the other way:
 
 ``` r
+
 q1 <- M3 %*% M4
 q2 <- as.brobmat(as.matrix(M3) %*% as.matrix(M4))
 max(abs(as.brob(q1-q2)))
 #> [1] +exp(-32.743)
 ```
 
-Above we see that the difference of `exp(-30.267)` (about
-$7 \times 10^{- 14}$), is small.
+Above we see that the difference of `exp(-30.267)` (about $`7\times
+10^{-14}`$), is small.
 
 ## Numerical verification: integration with the `cubature` package
 
@@ -136,13 +146,16 @@ give some numerical verification for this.
 
 Suppose we wish to evaluate
 
-$$\int_{x = 0}^{x = 4}\left( x^{2} - 4 \right)\, dx$$
+``` math
+\int_{x=0}^{x=4}(x^2-4)\,dx
+```
 
 using numerical methods. See how the integrand includes positive and
-negative values; the theoretical value is $\frac{16}{3} = 5.33\ldots$.
+negative values; the theoretical value is $`\frac{16}{3}=5.33\ldots`$.
 The `cubature` idiom for this would be
 
 ``` r
+
 library("cubature")
 
 f.numeric <- function(x){x^2 - 4}
@@ -165,6 +178,7 @@ out.num
 and the Brobdingnagian equivalent would be
 
 ``` r
+
 
 f.brob <- function(x) {
     x <- as.brob(x[1, ])
@@ -189,6 +203,7 @@ out.brob
 We may compare the two methods:
 
 ``` r
+
 out.brob$integral - out.num$integral
 #> [1] 8.881784e-16
 ```

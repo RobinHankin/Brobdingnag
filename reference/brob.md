@@ -68,6 +68,7 @@ Robin K. S, Hankin
 ## Examples
 
 ``` r
+
 googol <- as.brob(10)^100
 googolplex <- 10^googol
 

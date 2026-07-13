@@ -211,6 +211,7 @@
   [`show,brobmat-method`](https://robinhankin.github.io/Brobdingnag/reference/brobmat-class.md)
   [`t,brobmat-method`](https://robinhankin.github.io/Brobdingnag/reference/brobmat-class.md)
   [`t,ANY-method`](https://robinhankin.github.io/Brobdingnag/reference/brobmat-class.md)
+  [`sum,brobmat-method`](https://robinhankin.github.io/Brobdingnag/reference/brobmat-class.md)
   :
 
   Class `"brobmat"`

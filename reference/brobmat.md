@@ -62,6 +62,7 @@ Robin K. S. Hankin
 ## Examples
 
 ``` r
+
 (M <- brobmat(-10:19,5,6))
 #>      [,1]      [,2]     [,3]    [,4]    [,5]     [,6]    
 #> [1,] +exp(-10) +exp(-5) +exp(0) +exp(5) +exp(10) +exp(15)

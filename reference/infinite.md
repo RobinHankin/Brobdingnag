@@ -39,6 +39,7 @@ Robin K. S. Hankin
 ## Examples
 
 ``` r
+
 is.infinite(brob(c(1,4,Inf)))
 #> [1] FALSE FALSE  TRUE
 

@@ -20,6 +20,7 @@ given instead.
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 !brob(10)
 } # }
