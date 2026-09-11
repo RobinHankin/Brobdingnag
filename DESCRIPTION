@@ -16,5 +16,6 @@ VignetteBuilder: knitr
 License: GPL
 Repository: CRAN
 URL: https://github.com/RobinHankin/Brobdingnag, https://robinhankin.github.io/Brobdingnag/
+BugReports: https://github.com/RobinHankin/Brobdingnag/issues
 Encoding: UTF-8
 Config/roxygen2/version: 8.1.0
