@@ -210,5 +210,5 @@ out.brob$integral - out.num$integral
 
 ### References
 
-Hankin, Robin K. S. 2007. “Very Large Numbers in : introducing Package
-.” *News* 7 (3): 15–16. <https://CRAN.R-project.org/doc/Rnews/>.
+Hankin, Robin K. S. 2007. “Very Large Numbers in r: Introducing Package
+Brobdingnag.” *R News* 7: 15–16.
