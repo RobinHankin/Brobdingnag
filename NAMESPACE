@@ -28,7 +28,12 @@ export(glub)
 export(is.brob)
 export(is.brobmat)
 export(is.glub)
+export(max)
+export(min)
 export(newbrobmat)
+export(prod)
+export(range)
+export(sum)
 export(sum1)
 exportMethods(Arith)
 exportMethods(Compare)
@@ -37,11 +42,15 @@ exportMethods(Summary)
 exportMethods(as.matrix)
 importClassesFrom(Matrix,index)
 importFrom(graphics,plot.default)
-importFrom(methods,Arith)
-importFrom(methods,Compare)
-importFrom(methods,Logic)
-importFrom(methods,Summary)
-importFrom(methods,as)
-importFrom(methods,callGeneric)
-importFrom(methods,is)
-importFrom(methods,new)
+importFrom(methods,
+  Arith,
+  Compare,
+  Logic,
+  Summary,
+  as,
+  callGeneric,
+  is,
+  new,
+  setGeneric,
+  setMethod
+)

@@ -1,7 +1,22 @@
 #' @importFrom graphics plot.default
-#' @importFrom methods as callGeneric is new Arith Compare Logic Summary
+#' @importFrom methods as callGeneric is new Arith Compare Logic Summary setGeneric setMethod
 
 #' @importClassesFrom Matrix index
+
+#' @export
+setGeneric("sum")
+
+#' @export
+setGeneric("prod")
+
+#' @export
+setGeneric("min")
+
+#' @export
+setGeneric("max")
+
+#' @export
+setGeneric("range")
 
 
 ".Brob.valid" <- function(object){
