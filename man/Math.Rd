@@ -24,11 +24,20 @@
 \alias{sum1}
 \alias{sqrt,brob-method}
 \alias{sqrt,glub-method}
+\alias{log,brob-method}
+\alias{log,glub-method}
 \alias{Math,brob-method}
 \alias{Math,glub-method}
 \title{Various logarithmic and circular functions for brobs}
 \description{
 Various elementary functions for brobs
+}
+\usage{
+\S4method{Math}{brob}(x)
+\S4method{Math}{glub}(x)
+\S4method{log}{brob}(x, base = exp(1))
+\S4method{log}{glub}(x, base = exp(1))
+sum1(x)
 }
 \arguments{
   \item{x}{Object of class \code{brob} (or sometimes \code{glub})}

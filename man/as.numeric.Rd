@@ -14,9 +14,14 @@
   Coerces an object of class \code{brob} to numeric, or an object of
   class \code{glub} to complex
 }
+\usage{
+\S4method{as.numeric}{brob}(x)
+\S4method{as.numeric}{glub}(x)
+\S4method{as.complex}{brob}(x)
+\S4method{as.complex}{glub}(x)
+}
 \arguments{
   \item{x}{Object of class \code{brob} or \code{glub}}
-  \item{\dots}{Further arguments (currently ignored)}
 }
 \details{
   Function \code{as.numeric()} coerces a \code{brob}  to numeric; if given

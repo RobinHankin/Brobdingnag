@@ -9,6 +9,10 @@
 \title{Various summary statistics for brobs and glubs}
 \description{Various summary statistics for brobs and glubs
 }
+\usage{
+\S4method{Summary}{brob}(x, \dots, na.rm = FALSE)
+\S4method{Summary}{glub}(x, \dots, na.rm = FALSE)
+}
 \arguments{
   \item{x,\dots}{Objects of class \code{brob} or, in the case of
     \code{sum()} and \code{prob()}, class \code{glub}}
