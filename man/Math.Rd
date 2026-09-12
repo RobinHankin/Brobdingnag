@@ -10,12 +10,8 @@
 \alias{asinh}
 \alias{atan}
 \alias{atanh}
-\alias{cos}
 \alias{sin}
-\alias{tan}
-\alias{tanh}
 \alias{cos}
-\alias{sin}
 \alias{tan}
 \alias{tanh}
 \alias{trunc}
