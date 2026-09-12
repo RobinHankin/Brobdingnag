@@ -44,6 +44,21 @@
    subsetting of brobs and glubs.</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S4 method for class 'brob'</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">]</span></span>
+<span><span class="co"># S4 method for class 'glub'</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">]</span></span>
+<span><span class="co"># S4 method for class 'brobmat'</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">]</span></span>
+<span><span class="co"># S4 method for class 'brob'</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span><span class="co"># S4 method for class 'glub'</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">value</span></span>
+<span><span class="co"># S4 method for class 'brobmat'</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">i</span>, <span class="va">j</span>, <span class="va">...</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">value</span></span></code></pre></div>
+    </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
@@ -51,11 +66,14 @@
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>Object of class brob or glub</p></dd>
 
-  <dt id="arg-i">i<a class="anchor" aria-label="anchor" href="#arg-i"></a></dt>
+  <dt id="arg-i-j-">i, j, ...<a class="anchor" aria-label="anchor" href="#arg-i-j-"></a></dt>
 <dd><p>elements to extract or replace</p></dd>
 
   <dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
 <dd><p>replacement value</p></dd>
+
+  <dt id="arg-drop">drop<a class="anchor" aria-label="anchor" href="#arg-drop"></a></dt>
+<dd><p>Boolean, indicating whether to <code>drop</code> the result</p></dd>
 
 </dl></div>
     <div class="section level2">

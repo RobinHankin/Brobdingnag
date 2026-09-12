@@ -3,19 +3,40 @@
 Methods for `"["` and `"[<-"`, i.e., extraction or subsetting of brobs
 and glubs.
 
+## Usage
+
+``` r
+# S4 method for class 'brob'
+x[i, j, ..., drop = TRUE]
+# S4 method for class 'glub'
+x[i, j, ..., drop = TRUE]
+# S4 method for class 'brobmat'
+x[i, j, ..., drop = TRUE]
+# S4 method for class 'brob'
+x[i, j, ...] <- value
+# S4 method for class 'glub'
+x[i, j, ...] <- value
+# S4 method for class 'brobmat'
+x[i, j, ...] <- value
+```
+
 ## Arguments
 
 - x:
 
   Object of class brob or glub
 
-- i:
+- i, j, ...:
 
   elements to extract or replace
 
 - value:
 
   replacement value
+
+- drop:
+
+  Boolean, indicating whether to `drop` the result
 
 ## Value
 

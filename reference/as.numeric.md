@@ -3,15 +3,24 @@
 Coerces an object of class `brob` to numeric, or an object of class
 `glub` to complex
 
+## Usage
+
+``` r
+# S4 method for class 'brob'
+as.numeric(x)
+# S4 method for class 'glub'
+as.numeric(x)
+# S4 method for class 'brob'
+as.complex(x)
+# S4 method for class 'glub'
+as.complex(x)
+```
+
 ## Arguments
 
 - x:
 
   Object of class `brob` or `glub`
-
-- ...:
-
-  Further arguments (currently ignored)
 
 ## Details
 

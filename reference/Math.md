@@ -2,6 +2,20 @@
 
 Various elementary functions for brobs
 
+## Usage
+
+``` r
+# S4 method for class 'brob'
+Math(x)
+# S4 method for class 'glub'
+Math(x)
+# S4 method for class 'brob'
+log(x, base = exp(1))
+# S4 method for class 'glub'
+log(x, base = exp(1))
+sum1(x)
+```
+
 ## Arguments
 
 - x:

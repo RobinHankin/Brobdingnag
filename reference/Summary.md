@@ -2,6 +2,15 @@
 
 Various summary statistics for brobs and glubs
 
+## Usage
+
+``` r
+# S4 method for class 'brob'
+Summary(x, ..., na.rm = FALSE)
+# S4 method for class 'glub'
+Summary(x, ..., na.rm = FALSE)
+```
+
 ## Arguments
 
 - x,...:
