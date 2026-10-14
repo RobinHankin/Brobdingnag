@@ -4,9 +4,6 @@
 #' @importClassesFrom Matrix index
 
 #' @export
-setGeneric("sum")
-
-#' @export
 setGeneric("prod")
 
 #' @export
@@ -342,54 +339,33 @@ setMethod("Logic", signature(e1="ANY", e2="swift"), .Brob.logic)
 #' @export
 setMethod("Logic", signature(e1="swift", e2="swift"), .Brob.logic)
 
-if(!isGeneric("max")){
-setGeneric("max", function(x, ..., na.rm = FALSE)
-	{
-		standardGeneric("max")
-	},
-	useAsDefault = function(x, ..., na.rm = FALSE)
-	{
-		base::max(x, ..., na.rm = na.rm)
-	},
-	group = "Summary")
-}
+#' @export
+setGeneric(
+    name         = "max",
+    def          = function(x, ..., na.rm = FALSE){standardGeneric("max")},
+    useAsDefault = function(x, ..., na.rm = FALSE){base::max(x, ..., na.rm = na.rm)},
+    group        = "Summary")
 
-if(!isGeneric("min")){
-setGeneric("min", function(x, ..., na.rm = FALSE)
-	{
-		standardGeneric("min")
-	},
-	useAsDefault = function(x, ..., na.rm = FALSE)
-	{
-		base::min(x, ..., na.rm = na.rm)
-	},
-	group = "Summary")
-}
+#' @export
+setGeneric(
+    name         = "min",
+    def          = function(x, ..., na.rm = FALSE){standardGeneric("min")},
+    useAsDefault = function(x, ..., na.rm = FALSE){base::min(x, ..., na.rm = na.rm)},
+    group        = "Summary")
 
-if(!isGeneric("range")){
-setGeneric("range", function(x, ..., na.rm = FALSE)
-	{
-		standardGeneric("range")
-	},
-	useAsDefault = function(x, ..., na.rm = FALSE)
-	{
-		base::range(x, ..., na.rm = na.rm)
-	},
-	group = "Summary")
-}
+#' @export
+setGeneric(
+    name         = "range",
+    def          = function(x, ..., na.rm = FALSE){standardGeneric("range")},
+    useAsDefault = function(x, ..., na.rm = FALSE){base::range(x, ..., na.rm = na.rm)},
+    group        = "Summary")
 
-if(!isGeneric("prod")){
-setGeneric("prod", function(x, ..., na.rm = FALSE)
-	{
-		standardGeneric("prod")
-	},
-	useAsDefault = function(x, ..., na.rm = FALSE)
-	{
-		base::prod(x, ..., na.rm = na.rm)
-	},
-	group = "Summary")
-}
-
+#' @export
+setGeneric(
+    name         = "prod",
+    def          = function(x, ..., na.rm = FALSE){standardGeneric("prod")},
+    useAsDefault = function(x, ..., na.rm = FALSE){base::prod(x, ..., na.rm = na.rm)},
+    group        = "Summary")
 
 ".Brob.max" <- function(x, ..., na.rm=FALSE){
   p <- x@positive
