@@ -33,6 +33,8 @@ export(min)
 export(newbrobmat)
 export(prod)
 export(range)
+export(rbrob)
+export(rbrobb)
 export(sum1)
 exportMethods(Arith)
 exportMethods(Compare)
@@ -54,3 +56,4 @@ importFrom(methods,
   setGeneric,
   setMethod
 )
+importFrom(stats,rnorm)

@@ -1,3 +1,7 @@
+# Brobdingnag 1.3-2
+
+- rbrob()
+
 # Brobdingnag 1.3-1
 
 - bugfixes
