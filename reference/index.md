@@ -208,5 +208,9 @@
 - [`plot()`](https://robinhankin.github.io/Brobdingnag/reference/plot.md)
   : Basic plotting of Brobs
 
+- [`rbrob()`](https://robinhankin.github.io/Brobdingnag/reference/rbrob.md)
+  [`rbrobb()`](https://robinhankin.github.io/Brobdingnag/reference/rbrob.md)
+  : Random brobs
+
 - [`swift-class`](https://robinhankin.github.io/Brobdingnag/reference/swift-class.md)
   : Class "swift"
